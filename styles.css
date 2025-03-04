@@ -54,6 +54,13 @@
     font-size: 1.25rem;
     font-weight: 500;
   }
+  .logo h2 {
+    font-size: 2rem;
+    font-weight: 2000;
+    background: linear-gradient(90deg, #c084fc, #60a5fa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
   
   nav {
     display: flex;
@@ -113,7 +120,7 @@
   .hero-content {
     position: relative;
     z-index: 1;
-    max-width: 2000px;
+    width: 60rem;
     margin: 0 auto;
     text-align: center;
     background-color: rgba(0, 0, 0, 0.6);
@@ -121,13 +128,14 @@
     border-radius: 10px;
   }
   
-  h1 {
-    font-size: 4rem;
-    line-height: 1.1;
-    margin-bottom: 2rem;
-    font-weight: 500;
+  .hero-h1 {
+    font-size: 4em;
+    text-align: center;
+    background: linear-gradient(90deg, #c084fc, #60a5fa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
-  
+ 
   .text-white {
     color: var(--color-text);
     display: block;
@@ -163,21 +171,122 @@
     margin-right: auto;
   }
   
+.simulation-landscape {
+    font-family: Arial, sans-serif;
+    color: white;
+    padding: 10rem;
+    border-radius: 8px;
+}
+
+.simulation-landscape h1 {
+    font-size: 3em;
+    text-align: center;
+    background: linear-gradient(90deg, #c084fc, #60a5fa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    /* grid-template-columns: repeat(2, 1fr); */
+    gap: 2rem;
+    margin-top: 30px;
+}
+.card {
+    background-color: #1f1f1f;
+    padding: 20px;
+    border-radius: 8px;
+}
+.card h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+.card p {
+    font-size: 1.1em;
+    color: #d4d4d4;
+}
+
+/* Workflows */
+.workflows {
+    color: #fff;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.workflows-title-muted {
+    font-size: 3rem;
+    background: linear-gradient(90deg, #c6c1ca, #38bdf8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.workflows-title {
+    font-size: 3rem;
+    background: linear-gradient(90deg, #a855f7, #38bdf8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.workflow-container {
+    display: flex;
+    gap: 30px;
+}
+.workflow-column {
+    background-color: #222;
+    padding: 20px;
+    border-radius: 10px;
+    width: 40rem;
+}
+.step {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.step-number {
+    background-color: #444;
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: bold;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    border-radius: 5px;
+}
+.step-content h2 {
+    color: #fff;
+    margin: 0 0 10px 0; /* top, right, bottom, left */
+    font-size: 1.5rem;
+    text-align: left;
+}
+.step-content p {
+    margin: 0 0 10px 0;
+    font-size: 1.5rem;
+    color: #bbb;
+}
+
+
   #benefits,
   #features {
     padding: 6rem 0;
   }
   
-  h2 {
+  .benefits-title {
     font-size: 2.5rem;
+    background: linear-gradient(90deg, #a855f7, #38bdf8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     text-align: center;
     margin-bottom: 3rem;
     font-weight: 500;
   }
+
   
   .benefits-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
     gap: 2rem;
   }
   
@@ -195,12 +304,13 @@
   .benefit-card h3 {
     color: var(--color-cyan);
     margin-bottom: 1rem;
-    font-size: 1.5rem;
+    font-size: 2rem;
     font-weight: 500;
   }
   
   .benefit-card p {
     color: var(--color-text-muted);
+    font-size: 1.5rem;
   }
   
   .features-grid {
@@ -301,6 +411,7 @@
     width: 100%;
     height: 100%;
     z-index: -1;
+    opacity: 0.9;
   }
   
   .animation-container {
@@ -309,6 +420,7 @@
   }
   
   #neuralNetworkCanvas {
+    position: absolute;
     width: 100%;
     height: 100%;
   }

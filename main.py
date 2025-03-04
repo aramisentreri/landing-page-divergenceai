@@ -39,12 +39,12 @@ header = Header(
                         stroke_linejoin='round',
                         cls='lucide lucide-wand-2'
                     ),
-                    Span('DivergenceAI'),
+                    H2(Span('DivergenceAI')),
                     href='/',
                     cls='logo'
                 ),
                 Nav(
-                    A('Features', href='#features'),
+                    # A('Features', href='#features'),
                     A('Benefits', href='#benefits'),
                     A('Blog', href='/blog', cls='active'),
                     A(Button('Join the waitlist', cls='btn btn-primary'), href='#cta')
@@ -70,48 +70,158 @@ def home():
             Main(
                 Section(
                     Canvas(id='emWaveCanvas'),
-                Div(
                     Div(
-                        H1(
-                            Span('AI-powered Automation', cls='text-white'),
-                            Span('for', cls='text-white'),
-                            Span('Engineering Simulations', cls='gradient-text-purple'),
+                        Div(
+                            H1(Span('AI-powered Engineering Simulations'), cls='hero-h1'),
+                            P('Use AI to revolutionize physics simulation, empowering engineers, designers, and entrepreneurs with faster, more accessible, and more powerful tools.'),
+                            Form(
+                                Input(type='hidden', name='access_key', value='af5f23cb-d08f-4578-b508-8ae2e3edd453'),
+                                # Input(type='text', name='name', required=''),
+                                Input(type='email', name='email', placeholder='Enter your email', required=''),
+                                # Textarea(name='message', required=''),
+                                Input(type='checkbox', name='botcheck', style='display: none;', cls='hidden'),
+                                Button('Join the waitlist', type='submit', cls='btn btn-contact'),
+                                Div(cls='result'),
+                                method='POST',
+                                id='heroForm'
+                            ),
+                            cls='hero-content'
                         ),
-                        P('Use AI to revolutionize physics simulation, empowering engineers, designers, and entrepreneurs with faster, more accessible, and more powerful tools.'),
-                        Form(
-                            Input(type='hidden', name='access_key', value='af5f23cb-d08f-4578-b508-8ae2e3edd453'),
-                            # Input(type='text', name='name', required=''),
-                            Input(type='email', name='email', placeholder='Enter your email', required=''),
-                            # Textarea(name='message', required=''),
-                            Input(type='checkbox', name='botcheck', style='display: none;', cls='hidden'),
-                            Button('Join the waitlist', type='submit', cls='btn btn-contact'),
-                            Div(cls='result'),
-                            method='POST',
-                            id='heroForm'
-                        ),
-                        cls='hero-content'
+                        cls='container'                  
                     ),
-                    cls='container'
-                ),
                 cls='hero'
             ),
             Section(
+                H1('The Current Simulation Landscape'),
                 Div(
-                    H2('Key Benefits'),
+                    Div(
+                        H2('Slow set up time'),
+                        P('The flow from idea to simulation takes weeks if not months.'),
+                        cls='card'
+                    ),
+                    Div(
+                        H2('Complex'),
+                        P('Requires deep technical expertise, limiting accessibility for many users.'),
+                        cls='card'
+                    ),
+                    Div(
+                        H2('Time-consuming'),
+                        P('Slow iteration process hampers rapid prototyping and innovation.'),
+                        cls='card'
+                    ),
+                    Div(
+                        H2('Expensive'),
+                        P('Inaccessible to non-established companies. Open source tools are even more complex.'),
+                        cls='card'
+                    ),
+                    cls='grid'
+                ),
+                cls='simulation-landscape'
+            ),
+            Section(
+                Div(
+                    Div(
+                        H1('Traditional Simulation Workflow', cls='workflows-title-muted'),
+                        Div(
+                            Div('1', cls='step-number'),
+                            Div(
+                                    H2('Model intake and preparation'),
+                                    P('Import 3D CAD file, simplify geometry and create mesh for discretization.'),
+                                    cls='step-content'
+                                ),
+                                cls='step'
+                            ),
+                            Div(
+                                Div('2', cls='step-number'),
+                                Div(
+                                    H2('Simulation Setup'),
+                                    P('Define constraints, material properties, boundary conditions and solver parameters.'),
+                                    cls='step-content'
+                                ),
+                                cls='step'
+                            ),
+                            Div(
+                                Div('3', cls='step-number'),
+                                Div(
+                                    H2('Computation'),
+                                    P('Run simulations, taking hours or days depending on complexity.'),
+                                    cls='step-content'
+                                ),
+                                cls='step'
+                            ),
+                            Div(
+                                Div('4', cls='step-number'),
+                                Div(
+                                    H2('Analysis'),
+                                    P('Extract insights like field distributions or impedance values.'),
+                                    cls='step-content'
+                                ),
+                                cls='step'
+                            ),
+                            Div(
+                                Div('5', cls='step-number'),
+                                Div(
+                                    H2('Scenario Exploration'),
+                                    P('Vary conditions to evaluate performance across design spaces.'),
+                                    cls='step-content'
+                                ),
+                                cls='step'
+                            ),
+                            cls='workflow-column'
+                        ),
+                        Div(
+                            H1('AI improved Workflow', cls='workflows-title'),
+                            Div(
+                                Div('1', cls='step-number'),
+                                Div(
+                                    H2('Automatic Preprocessing and Smart Meshing'),
+                                    P('Onboard geometry, simplify, iterate meshing, set up boundary conditions and simulation parameters.'),
+                                    cls='step-content'
+                                ),
+                                cls='step'
+                            ),
+                            Div(
+                                Div('2', cls='step-number'),
+                                Div(
+                                    H2('Run Simulations with Autonomous Monitoring'),
+                                    P('Simulations often fail. Our monitoring agent detects issues in real-time, attempts to debug, and re-runs automatically to minimize downtime.'),
+                                    cls='step-content'
+                                ),
+                                cls='step'
+                            ),
+                            Div(
+                                Div('3', cls='step-number'),
+                                Div(
+                                    H2('AI-Powered Postprocessing & Insights'),
+                                    P('Intuitive natural language interface allows users to interact with simulation results. The AI generates key visualizations, highlights insights, and enables easy sharing - making high-fidelity simulations more accessible to engineers.'),
+                                    cls='step-content'
+                                ),
+                                    cls='step'
+                            ),
+                        cls='workflow-column'
+                        ),
+                    cls='workflow-container'
+                    ),
+                cls='workflows'
+            ),
+            Section(
+                Canvas(id='neuralNetworkCanvas'),
+                Div(
+                    H2('Key Benefits', cls='benefits-title'),
                     Div(
                         Div(
-                            H3('Accelerated Design Iterations'),
-                            P('Reduce simulation time by up to 80%, allowing for rapid prototyping and design optimization.'),
+                            H3('Automatic Preprocessing and Smart Meshing'),
+                            P('Onboard geometry, simplify, iterate meshing, set up boundary conditions and simulation parameters.'),
                             cls='benefit-card'
                         ),
                         Div(
-                            H3('Improved Accuracy'),
-                            P('Achieve higher precision in complex electromagnetic scenarios, leading to better product performance.'),
+                            H3('Run Simulations with Autonomous Monitoring'),
+                            P('Simulations often fail. Our monitoring agent detects issues in real-time, attempts to debug, and re-runs automatically to minimize downtime.'),
                             cls='benefit-card'
                         ),
                         Div(
-                            H3('Cost-Effective Solutions'),
-                            P('Minimize the need for physical prototypes, saving time and resources in the development process.'),
+                            H3('AI-Powered Postprocessing & Insights'),
+                            P('Intuitive natural language interface allows users to interact with simulation results. The AI generates key visualizations, highlights insights, and enables easy sharing - making high-fidelity simulations more accessible to engineers.'),
                             cls='benefit-card'
                         ),
                         cls='benefits-grid'
@@ -120,29 +230,29 @@ def home():
                 ),
                 id='benefits'
             ),
-            Section(
-                Div(
-                    H2('Advanced Features'),
-                    Div(
-                        Div(
-                            H3('Physics-Informed Neural Networks'),
-                            P('Our tool leverages cutting-edge physics-informed neural networks to provide accurate and efficient electromagnetic simulations.'),
-                            Ul(
-                                Li('Faster convergence in complex scenarios'),
-                                Li('Improved accuracy in multi-scale problems'),
-                                Li('Seamless integration of physical constraints')
-                            )
-                        ),
-                        Div(
-                            Canvas(id='neuralNetworkCanvas'),
-                            cls='animation-container'
-                        ),
-                        cls='features-grid'
-                    ),
-                    cls='container'
-                ),
-                id='features'
-            ),
+            # Section(
+            #     Div(
+            #         H2('Advanced Features'),
+            #         Div(
+            #             Div(
+            #                 H3('Physics-Informed Neural Networks'),
+            #                 P('Our tool leverages cutting-edge physics-informed neural networks to provide accurate and efficient electromagnetic simulations.'),
+            #                 Ul(
+            #                     Li('Faster convergence in complex scenarios'),
+            #                     Li('Improved accuracy in multi-scale problems'),
+            #                     Li('Seamless integration of physical constraints')
+            #                 )
+            #             ),
+            #             Div(
+            #                 Canvas(id='neuralNetworkCanvas'),
+            #                 cls='animation-container'
+            #             ),
+            #             cls='features-grid'
+            #         ),
+            #         cls='container'
+            #     ),
+            #     id='features'
+            # ),
             Section(
                 Div(
                     H2('Ready to Transform Your Design Process?'),
@@ -171,6 +281,8 @@ def home():
 )
 @app.get("/blog")
 def blog():
+    Style('.simulation-landscape {\r\n        font-family: Arial, sans-serif;\r\n        background-color: #0d0d0d;\r\n        color: white;\r\n        padding: 20px;\r\n        border-radius: 8px;\r\n    }\r\n    .simulation-landscape h1 {\r\n        font-size: 3em;\r\n        background: linear-gradient(90deg, #c084fc, #60a5fa);\r\n        -webkit-background-clip: text;\r\n        -webkit-text-fill-color: transparent;\r\n    }\r\n    .grid {\r\n        display: grid;\r\n        grid-template-columns: repeat(2, 1fr);\r\n        gap: 20px;\r\n        margin-top: 30px;\r\n    }\r\n    .card {\r\n        background-color: #1f1f1f;\r\n        padding: 20px;\r\n        border-radius: 8px;\r\n    }\r\n    .card h2 {\r\n        font-size: 1.5em;\r\n        margin-bottom: 10px;\r\n    }\r\n    .card p {\r\n        font-size: 1.1em;\r\n        color: #d4d4d4;\r\n    }')
+
     return Html(
     head,
     Body(
@@ -259,5 +371,106 @@ def join_waitlist():
         action='https://api.web3forms.com/submit',
         method='POST'
     )
+
+
+@app.get("/test")
+def test():
+
+    return Html(
+    Head(
+        Meta(charset='UTF-8'),
+        Meta(name='viewport', content='width=device-width, initial-scale=1.0'),
+        Title('Simulation Workflow'),
+        Style('body {\r\n            font-family: Arial, sans-serif;\r\n            background-color: #111;\r\n            color: #fff;\r\n            display: flex;\r\n            justify-content: center;\r\n            align-items: center;\r\n            height: 100vh;\r\n            margin: 0;\r\n        }\r\n        .container {\r\n            display: flex;\r\n            gap: 50px;\r\n        }\r\n        .workflow-column {\r\n            background-color: #222;\r\n            padding: 20px;\r\n            border-radius: 10px;\r\n            width: 300px;\r\n        }\r\n        h1 {\r\n            background: linear-gradient(90deg, #c471ed, #12c2e9);\r\n            -webkit-background-clip: text;\r\n            color: transparent;\r\n            font-size: 2rem;\r\n        }\r\n        .step {\r\n            display: flex;\r\n            align-items: flex-start;\r\n            gap: 10px;\r\n            margin-bottom: 20px;\r\n        }\r\n        .step-number {\r\n            background-color: #444;\r\n            color: #fff;\r\n            padding: 10px;\r\n            border-radius: 50%;\r\n            width: 30px;\r\n            height: 30px;\r\n            display: flex;\r\n            justify-content: center;\r\n            align-items: center;\r\n            font-weight: bold;\r\n        }\r\n        .step-content h2 {\r\n            margin: 0;\r\n            font-size: 1.2rem;\r\n        }\r\n        .step-content p {\r\n            margin: 5px 0 0;\r\n            font-size: 0.9rem;\r\n            color: #ccc;\r\n        }')
+    ),
+    Body(
+        Div(
+            Div(
+                H1('Traditional Simulation Workflow'),
+                Div(
+                    Div('1', cls='step-number'),
+                    Div(
+                        H2('Model intake and preparation'),
+                        P('Import 3D CAD file, simplify geometry and create mesh for discretization.'),
+                        cls='step-content'
+                    ),
+                    cls='step'
+                ),
+                Div(
+                    Div('2', cls='step-number'),
+                    Div(
+                        H2('Simulation Setup'),
+                        P('Define constraints, material properties, boundary conditions and solver parameters.'),
+                        cls='step-content'
+                    ),
+                    cls='step'
+                ),
+                Div(
+                    Div('3', cls='step-number'),
+                    Div(
+                        H2('Computation'),
+                        P('Run simulations, taking hours or days depending on complexity.'),
+                        cls='step-content'
+                    ),
+                    cls='step'
+                ),
+                Div(
+                    Div('4', cls='step-number'),
+                    Div(
+                        H2('Analysis'),
+                        P('Extract insights like field distributions or impedance values.'),
+                        cls='step-content'
+                    ),
+                    cls='step'
+                ),
+                Div(
+                    Div('5', cls='step-number'),
+                    Div(
+                        H2('Scenario Exploration'),
+                        P('Vary conditions to evaluate performance across design spaces.'),
+                        cls='step-content'
+                    ),
+                    cls='step'
+                ),
+                cls='workflow-column'
+            ),
+            Div(
+                H1('New Simulation Workflow'),
+                Div(
+                    Div('1', cls='step-number'),
+                    Div(
+                        H2('Data Preparation'),
+                        P('Automatically process geometry and setup conditions.'),
+                        cls='step-content'
+                    ),
+                    cls='step'
+                ),
+                Div(
+                    Div('2', cls='step-number'),
+                    Div(
+                        H2('AI-Powered Computation'),
+                        P('Use AI models to accelerate simulations and reduce runtime.'),
+                        cls='step-content'
+                    ),
+                    cls='step'
+                ),
+                Div(
+                    Div('3', cls='step-number'),
+                    Div(
+                        H2('Real-Time Analysis'),
+                        P('Instantly visualize and explore simulation results.'),
+                        cls='step-content'
+                    ),
+                    cls='step'
+                ),
+                cls='workflow-column'
+            ),
+            cls='container'
+        )
+    ),
+    lang='en'
+)
+
+
 
 serve()

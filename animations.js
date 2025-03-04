@@ -23,18 +23,17 @@ function animateEMWave() {
         gradient.addColorStop(0, 'rgba(0, 229, 255, 0.5)');
         gradient.addColorStop(1, 'rgba(0, 102, 255, 0.5)');
 
-        const waveLength = 0.01;
-        const amplitude = 30;
-        const frequency = 0.05;
+        const waveLength = 0.018;
+        const amplitude = 1;
+        const frequency = 0.1;
 
         for (let x = 0; x < width; x += 10) {
             for (let y = 0; y < height; y += 10) {
                 const distanceFromCenter = Math.sqrt((x - width / 2) ** 2 + (y - height / 2) ** 2);
                 const z = amplitude * Math.sin(waveLength * distanceFromCenter - frequency * time);
-
+                
                 const size = Math.max(0, (z + amplitude) / (2 * amplitude));
                 const alpha = size * 0.3;
-
                 emWaveCtx.beginPath();
                 emWaveCtx.arc(x, y, size * 5, 0, Math.PI * 2);
                 emWaveCtx.fillStyle = `rgba(0, 229, 255, ${alpha})`;
@@ -42,7 +41,7 @@ function animateEMWave() {
             }
         }
 
-        time += 0.05;
+        time += 0.5;
         requestAnimationFrame(drawWave);
     }
 
