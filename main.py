@@ -13,7 +13,8 @@ head = Head(
         Meta(charset='UTF-8'),
         Meta(name='viewport', content='width=device-width, initial-scale=1.0'),
         Title('DivergenceAI - Advanced Electromagnetic Simulation Tool'),
-        Link(rel='stylesheet', href='styles.css')
+        Link(rel='stylesheet', href='styles.css'),
+        Script(src='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js')
     )
 
 header = Header(
@@ -39,7 +40,9 @@ header = Header(
                         stroke_linejoin='round',
                         cls='lucide lucide-wand-2'
                     ),
-                    H2(Span('DivergenceAI')),
+                    
+                    H1(Span('\\( \\nabla \\cdot \\) AI'), style='display: inline-block; margin-right: 2rem;'),
+                    H2(Span('DivergenceAI'), style='display: inline-block; margin-right: 1rem;'),
                     href='/',
                     cls='logo'
                 ),
