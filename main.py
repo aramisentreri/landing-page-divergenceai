@@ -76,7 +76,7 @@ def home():
                     Div(
                         Div(
                             H1(Span('AI-powered Engineering Simulations'), cls='hero-h1'),
-                            P('Use AI to revolutionize physics simulation, empowering engineers, designers, and entrepreneurs with faster, more accessible, and more powerful tools.'),
+                            P('From CAD to insights in seconds. Streamline your workflow with AI—faster design cycles, smarter decisions, and seamless engineering.'),
                             Form(
                                 Input(type='hidden', name='access_key', value='af5f23cb-d08f-4578-b508-8ae2e3edd453'),
                                 # Input(type='text', name='name', required=''),
