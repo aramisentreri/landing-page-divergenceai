@@ -77,17 +77,35 @@ def home():
                         Div(
                             H1(Span('AI-powered Engineering Simulations'), cls='hero-h1'),
                             P('From CAD to insights in seconds. Streamline your workflow with AI—faster design cycles, smarter decisions, and seamless engineering.'),
-                            Form(
-                                Input(type='hidden', name='access_key', value='af5f23cb-d08f-4578-b508-8ae2e3edd453'),
-                                # Input(type='text', name='name', required=''),
-                                Input(type='email', name='email', placeholder='Enter your email', required=''),
-                                # Textarea(name='message', required=''),
-                                Input(type='checkbox', name='botcheck', style='display: none;', cls='hidden'),
-                                Button('Join the waitlist', type='submit', cls='btn btn-contact'),
-                                Div(cls='result'),
-                                method='POST',
-                                id='heroForm'
+                            # Form(
+                            #     Input(type='hidden', name='access_key', value='af5f23cb-d08f-4578-b508-8ae2e3edd453'),
+                            #     # Input(type='text', name='name', required=''),
+                            #     Input(type='email', name='email', placeholder='Enter your email', required=''),
+                            #     # Textarea(name='message', required=''),
+                            #     Input(type='checkbox', name='botcheck', style='display: none;', cls='hidden'),
+                            #     Button('Join the waitlist', type='submit', cls='btn btn-contact'),
+                            #     Div(cls='result'),
+                            #     method='POST',
+                            #     id='heroForm'
+                            # ),
+
+
+                            # Wait list modal
+                            Button('Join the Waitlist', onclick='showModal()', cls='waitlist-btn'),
+                            Div(id='overlay', onclick='closeModal()', cls='overlay'),
+                            Div(
+                                Button('X', onclick='closeModal()', cls='close-btn'),
+                                H3('Join the Waitlist'),
+                                Label('Email:', fr='email'),
+                                Input(type='hidden', name='access_key', id='access_key', value='af5f23cb-d08f-4578-b508-8ae2e3edd453'),
+                                Input(type='email', id='email', required='', placeholder='Enter your email'),
+                                Label('What would you like Divergence AI to do for you?', fr='request'),
+                                Textarea(id='request', rows='4', required='', placeholder="Imagine this is DivergenceAI's input box, what would you ask it to do?"),
+                                Button('Submit', onclick='submitForm()', cls='btn btn-contact'),
+                                id='modal',
+                                cls='modal'
                             ),
+                            Div(cls='result', id='heroFormResult'),
                             cls='hero-content'
                         ),
                         cls='container'                  
@@ -122,6 +140,7 @@ def home():
                 cls='simulation-landscape'
             ),
             Section(
+                Canvas(id='neuralNetworkCanvas'),
                 Div(
                     Div(
                         H1('Traditional Simulation Workflow', cls='workflows-title-muted'),
@@ -208,7 +227,6 @@ def home():
                 cls='workflows'
             ),
             Section(
-                Canvas(id='neuralNetworkCanvas'),
                 Div(
                     H2('Key Benefits', cls='benefits-title'),
                     Div(
@@ -233,48 +251,43 @@ def home():
                 ),
                 id='benefits'
             ),
-            # Section(
-            #     Div(
-            #         H2('Advanced Features'),
-            #         Div(
-            #             Div(
-            #                 H3('Physics-Informed Neural Networks'),
-            #                 P('Our tool leverages cutting-edge physics-informed neural networks to provide accurate and efficient electromagnetic simulations.'),
-            #                 Ul(
-            #                     Li('Faster convergence in complex scenarios'),
-            #                     Li('Improved accuracy in multi-scale problems'),
-            #                     Li('Seamless integration of physical constraints')
-            #                 )
-            #             ),
-            #             Div(
-            #                 Canvas(id='neuralNetworkCanvas'),
-            #                 cls='animation-container'
-            #             ),
-            #             cls='features-grid'
-            #         ),
-            #         cls='container'
-            #     ),
-            #     id='features'
-            # ),
             Section(
                 Div(
                     H2('Ready to Transform Your Design Process?'),
                     P('Join the waitlist and be the first to see how DivergenceAI can revolutionize your simulations.'),
-                    Form(
-                            Input(type='hidden', name='access_key', value='af5f23cb-d08f-4578-b508-8ae2e3edd453'),
-                            # Input(type='text', name='name', required=''),
-                            Input(type='email', name='email', placeholder='Enter your email', required=''),
-                            # Textarea(name='message', required=''),
-                            Input(type='checkbox', name='botcheck', style='display: none;', cls='hidden'),
-                            Button('Join the waitlist', type='submit', cls='btn btn-contact'),
-                            Div(cls='result'),
-                            method='POST',
-                            id='heroForm'
-                        ),
-                    cls='container'
+                    # Form(
+                    #         Input(type='hidden', name='access_key', value='af5f23cb-d08f-4578-b508-8ae2e3edd453'),
+                    #         # Input(type='text', name='name', required=''),
+                    #         Input(type='email', name='email', placeholder='Enter your email', required=''),
+                    #         # Textarea(name='message', required=''),
+                    #         Input(type='checkbox', name='botcheck', style='display: none;', cls='hidden'),
+                    #         Button('Join the waitlist', type='submit', cls='btn btn-contact'),
+                    #         Div(cls='result'),
+                    #         method='POST',
+                    #         id='heroForm'
+                    #     ),
+                    # Wait list modal
+                    Button('Join the Waitlist', onclick='showModal()', cls='waitlist-btn'),
+                    Div(id='overlay', onclick='closeModal()', cls='overlay'),
+                    Div(
+                        Button('X', onclick='closeModal()', cls='close-btn'),
+                        H3('Join the Waitlist'),
+                        Label('Email:', fr='email'),
+                        Input(type='hidden', name='access_key', id='access_key', value='af5f23cb-d08f-4578-b508-8ae2e3edd453'),
+                        Input(type='email', id='email', required='', placeholder='Enter your email'),
+                        Label('What would you like Divergence AI to do for you?', fr='request'),
+                        Textarea(id='request', rows='4', required='', placeholder="Imagine this is DivergenceAI's input box, what would you ask it to do?"),
+                        Button('Submit', onclick='submitForm()', cls='btn btn-contact'),
+                        id='modal',
+                        cls='modal'
+                    ),
+                    Div(cls='result', id='ctaFormResult'),
+
+                    cls='container',
+                    
                 ),
-                # cls='cta',
-                id='cta'
+                cls='cta',
+                # id='cta'
             )
         ),
         footer,

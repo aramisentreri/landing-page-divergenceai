@@ -117,9 +117,80 @@ function animateNeuralNetwork() {
     drawNeurons();
 }
 
+function showModal() {
+    document.getElementById("modal").style.display = "block";
+    document.getElementById("overlay").style.display = "block";
+}
+
+function closeModal() {
+    document.getElementById("modal").style.display = "none";
+    document.getElementById("overlay").style.display = "none";
+}
+
+function submitForm() {
+    let access_key = document.getElementById("access_key").value;
+    let email = document.getElementById("email").value;
+    let request = document.getElementById("request").value;
+    const resultDiv = document.getElementById('heroFormResult'); // Find the result div for this form
+    const ctaResultDiv = document.getElementById('ctaFormResult'); // Find the result div for this form
+    
+    resultDiv.innerHTML = "Please wait..."
+    ctaResultDiv.innerHTML = "Please wait..."
+    if (email && request) {
+        
+        data = {
+            access_key: access_key,
+            email: email,
+            request: request
+        }
+        // console.log(json);
+        json = JSON.stringify(data)
+
+        fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: json
+            })
+            .then(async (response) => {
+                let json = await response.json();
+                if (response.status == 200) {
+                    resultDiv.innerHTML = "Form submitted successfully";
+                    ctaResultDiv.innerHTML = "Form submitted successfully";
+                } else {
+                    console.log(response);
+                    resultDiv.innerHTML = json.message;
+                    ctaResultDiv.innerHTML = json.message;
+                }
+            })
+            .catch(error => {
+                console.log(error);
+                resultDiv.innerHTML = "Something went wrong!";
+                ctaResultDiv.innerHTML = "Something went wrong!";
+            })
+            .then(function() {
+                form.reset();
+                setTimeout(() => {
+                    resultDiv.style.display = "none";
+                    ctaResultDiv.style.display = "none";
+                }, 3000);
+            });
+    
+        // alert("Thank you for joining the waitlist!");
+        closeModal();
+    } else {
+        alert("Please fill out all fields.");
+    }
+}
+
+
+
+
 // Start animations when the page loads
 window.addEventListener('load', () => {
-    animateEMWave();
+    // animateEMWave();
     animateNeuralNetwork();
     
     // Trigger a resize event to ensure canvas is properly sized
@@ -131,7 +202,7 @@ window.addEventListener('load', () => {
 
 // Form submission
 const form = document.getElementById('heroForm');
-const forms = document.querySelectorAll('#heroForm', '#ctaForm');
+const forms = document.querySelectorAll('#heroForm', '#ctaForm', '#modal');
 // const result = document.getElementById('result');
 
 forms.forEach(form => {
@@ -139,6 +210,7 @@ forms.forEach(form => {
     e.preventDefault();
     const formData = new FormData(form);
   const object = Object.fromEntries(formData);
+  console.log(object);
   const json = JSON.stringify(object);
   const resultDiv = form.querySelector('.result'); // Find the result div for this form
   resultDiv.innerHTML = "Please wait..."
@@ -172,3 +244,4 @@ forms.forEach(form => {
         });
     });
 });
+
