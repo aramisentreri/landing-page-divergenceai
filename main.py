@@ -17,7 +17,7 @@ head = Head(
         Script(src='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'),
         # Amplitude Analytics
         Script(src='https://cdn.amplitude.com/script/8066a231914fd92d214704b80926add5.js'),
-        Script('window.amplitude.add(window.sessionReplay.plugin({sampleRate: 1}));window.amplitude.init(\'8066a231914fd92d214704b80926add5\', {"fetchRemoteConfig":true,"autocapture":true});')
+        # Script("""window.amplitude.add(window.sessionReplay.plugin({sampleRate: 1}));window.amplitude.init(\'8066a231914fd92d214704b80926add5\', {"fetchRemoteConfig":true,"autocapture":true});""")
     )
 
 header = Header(
