@@ -1,4 +1,9 @@
 from fasthtml.common import *
+from posthog import Posthog
+import uuid
+
+posthog = Posthog(project_api_key='phc_864zsK9T6F93dirU0dvYqnArsDAwqi4OhgFAppnKNex', host='https://us.i.posthog.com')
+
 
 app, rt = fast_app(
     hdrs=(
@@ -15,9 +20,6 @@ head = Head(
         Title('DivergenceAI - Advanced Electromagnetic Simulation Tool'),
         Link(rel='stylesheet', href='styles.css'),
         Script(src='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'),
-        # Amplitude Analytics
-        Script(src='https://cdn.amplitude.com/script/8066a231914fd92d214704b80926add5.js'),
-        # Script("""window.amplitude.add(window.sessionReplay.plugin({sampleRate: 1}));window.amplitude.init(\'8066a231914fd92d214704b80926add5\', {"fetchRemoteConfig":true,"autocapture":true});""")
     )
 
 header = Header(
@@ -67,8 +69,15 @@ footer = Footer(
         )
 
 @app.get("/")
-def home():
-
+def home(session):
+    """Checks if user has an ID, creates one if not, and returns it"""
+    user_id = session.get('user_id')
+    if not user_id:
+        user_id = str(uuid.uuid4())
+        session['user_id'] = user_id    
+    
+    # Track homepage view server-side
+    posthog.capture(user_id, 'home_page_viewed')
     return Html(
         head,
         Body(
@@ -299,9 +308,17 @@ def home():
     lang='en'
 )
 @app.get("/blog")
-def blog():
+def blog(session):
     Style('.simulation-landscape {\r\n        font-family: Arial, sans-serif;\r\n        background-color: #0d0d0d;\r\n        color: white;\r\n        padding: 20px;\r\n        border-radius: 8px;\r\n    }\r\n    .simulation-landscape h1 {\r\n        font-size: 3em;\r\n        background: linear-gradient(90deg, #c084fc, #60a5fa);\r\n        -webkit-background-clip: text;\r\n        -webkit-text-fill-color: transparent;\r\n    }\r\n    .grid {\r\n        display: grid;\r\n        grid-template-columns: repeat(2, 1fr);\r\n        gap: 20px;\r\n        margin-top: 30px;\r\n    }\r\n    .card {\r\n        background-color: #1f1f1f;\r\n        padding: 20px;\r\n        border-radius: 8px;\r\n    }\r\n    .card h2 {\r\n        font-size: 1.5em;\r\n        margin-bottom: 10px;\r\n    }\r\n    .card p {\r\n        font-size: 1.1em;\r\n        color: #d4d4d4;\r\n    }')
-
+    # Track blog page view server-side
+    """Checks if user has an ID, creates one if not, and returns it"""
+    user_id = session.get('user_id')
+    if not user_id:
+        user_id = str(uuid.uuid4())
+        session['user_id'] = user_id    
+    
+    posthog.capture(user_id, 'blog_page_viewed')
+    
     return Html(
     head,
     Body(
@@ -357,119 +374,25 @@ def blog():
 
 
 
-@app.get("/join-waitlist")
-def join_waitlist():
+# Add a new endpoint to handle the event capture
+@app.post("/capture-event")
+async def capture_event(session, request):
+    data = await request.json()
+    """Checks if user has an ID, creates one if not, and returns it"""
+    user_id = session.get('user_id')
+    if not user_id:
+        user_id = str(uuid.uuid4())
+        session['user_id'] = user_id    
+    
 
-    return Form(
-        Input(type='hidden', name='access_key', value='af5f23cb-d08f-4578-b508-8ae2e3edd453 '),
-        Input(type='text', name='name', required=''),
-        Input(type='email', name='email', required=''),
-        Textarea(name='message', required=''),
-        Input(type='checkbox', name='botcheck', style='display: none;', cls='hidden'),
-        Button('Submit Form', type='submit'),
-        action='https://api.web3forms.com/submit',
-        method='POST'
+    posthog.capture(
+        user_id,  # You might want to generate a unique ID here
+        data.get('event'),
+        {
+            'email': data.get('email'), # TODO: Not all events have an email
+            'has_request': bool(data.get('request'))
+        }
     )
-
-
-@app.get("/test")
-def test():
-
-    return Html(
-    Head(
-        Meta(charset='UTF-8'),
-        Meta(name='viewport', content='width=device-width, initial-scale=1.0'),
-        Title('Simulation Workflow'),
-        Style('body {\r\n            font-family: Arial, sans-serif;\r\n            background-color: #111;\r\n            color: #fff;\r\n            display: flex;\r\n            justify-content: center;\r\n            align-items: center;\r\n            height: 100vh;\r\n            margin: 0;\r\n        }\r\n        .container {\r\n            display: flex;\r\n            gap: 50px;\r\n        }\r\n        .workflow-column {\r\n            background-color: #222;\r\n            padding: 20px;\r\n            border-radius: 10px;\r\n            width: 300px;\r\n        }\r\n        h1 {\r\n            background: linear-gradient(90deg, #c471ed, #12c2e9);\r\n            -webkit-background-clip: text;\r\n            color: transparent;\r\n            font-size: 2rem;\r\n        }\r\n        .step {\r\n            display: flex;\r\n            align-items: flex-start;\r\n            gap: 10px;\r\n            margin-bottom: 20px;\r\n        }\r\n        .step-number {\r\n            background-color: #444;\r\n            color: #fff;\r\n            padding: 10px;\r\n            border-radius: 50%;\r\n            width: 30px;\r\n            height: 30px;\r\n            display: flex;\r\n            justify-content: center;\r\n            align-items: center;\r\n            font-weight: bold;\r\n        }\r\n        .step-content h2 {\r\n            margin: 0;\r\n            font-size: 1.2rem;\r\n        }\r\n        .step-content p {\r\n            margin: 5px 0 0;\r\n            font-size: 0.9rem;\r\n            color: #ccc;\r\n        }')
-    ),
-    Body(
-        Div(
-            Div(
-                H1('Traditional Simulation Workflow'),
-                Div(
-                    Div('1', cls='step-number'),
-                    Div(
-                        H2('Model intake and preparation'),
-                        P('Import 3D CAD file, simplify geometry and create mesh for discretization.'),
-                        cls='step-content'
-                    ),
-                    cls='step'
-                ),
-                Div(
-                    Div('2', cls='step-number'),
-                    Div(
-                        H2('Simulation Setup'),
-                        P('Define constraints, material properties, boundary conditions and solver parameters.'),
-                        cls='step-content'
-                    ),
-                    cls='step'
-                ),
-                Div(
-                    Div('3', cls='step-number'),
-                    Div(
-                        H2('Computation'),
-                        P('Run simulations, taking hours or days depending on complexity.'),
-                        cls='step-content'
-                    ),
-                    cls='step'
-                ),
-                Div(
-                    Div('4', cls='step-number'),
-                    Div(
-                        H2('Analysis'),
-                        P('Extract insights like field distributions or impedance values.'),
-                        cls='step-content'
-                    ),
-                    cls='step'
-                ),
-                Div(
-                    Div('5', cls='step-number'),
-                    Div(
-                        H2('Scenario Exploration'),
-                        P('Vary conditions to evaluate performance across design spaces.'),
-                        cls='step-content'
-                    ),
-                    cls='step'
-                ),
-                cls='workflow-column'
-            ),
-            Div(
-                H1('New Simulation Workflow'),
-                Div(
-                    Div('1', cls='step-number'),
-                    Div(
-                        H2('Data Preparation'),
-                        P('Automatically process geometry and setup conditions.'),
-                        cls='step-content'
-                    ),
-                    cls='step'
-                ),
-                Div(
-                    Div('2', cls='step-number'),
-                    Div(
-                        H2('AI-Powered Computation'),
-                        P('Use AI models to accelerate simulations and reduce runtime.'),
-                        cls='step-content'
-                    ),
-                    cls='step'
-                ),
-                Div(
-                    Div('3', cls='step-number'),
-                    Div(
-                        H2('Real-Time Analysis'),
-                        P('Instantly visualize and explore simulation results.'),
-                        cls='step-content'
-                    ),
-                    cls='step'
-                ),
-                cls='workflow-column'
-            ),
-            cls='container'
-        )
-    ),
-    lang='en'
-)
-
-
+    return {"status": "success"}
 
 serve()

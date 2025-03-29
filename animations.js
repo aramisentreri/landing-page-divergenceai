@@ -178,7 +178,19 @@ function submitForm() {
                 }, 3000);
             });
     
-        // alert("Thank you for joining the waitlist!");
+        // Send PostHog event
+        fetch('/capture-event', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: email,
+                request: request,
+                event: 'waitlist_form_submitted'
+            })
+        });
+        console.log("PostHog event sent");
         closeModal();
     } else {
         alert("Please fill out all fields.");
@@ -244,4 +256,6 @@ forms.forEach(form => {
         });
     });
 });
+
+
 
