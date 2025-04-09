@@ -335,6 +335,23 @@ def blog(session):
             Section(
                 Div(
                     Article(
+                        H2('What If Running Simulations Was as Easy as Chatting with AI?'),
+                        Div(
+                            Span('April 9th, 2025', cls='date'),
+                            Span('by Gustavo Navarro', cls='author'),
+                            cls='post-meta'
+                        ),
+                        P('We don’t just want better tools — we need them to bring ideas to life faster. But what does “better” actually look like?'),
+                        A('Read More', href='https://www.linkedin.com/pulse/what-running-simulations-easy-chatting-ai-gustavo-navarro-ljrpc', cls='btn btn-secondary'),
+                        cls='blog-post'
+                    ),
+                    cls='container'
+                ),
+                cls='blog-posts'
+            ),
+            Section(
+                Div(
+                    Article(
                         H2('The Future of Open-Source Simulation - Bridging Accessibility and Performance'),
                         Div(
                             Span('March 6th, 2025', cls='date'),
