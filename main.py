@@ -63,10 +63,15 @@ header = Header(
 
 footer = Footer(
             Div(
-                P('© 2025 DivergenceAI. All rights reserved.'),
-                cls='container'
+                P('© 2025 DivergenceAI. All rights reserved.', cls='copyright-text'),
+                A(
+                    Span('🗨️ Talk to us: Calendar link', cls='contact-text'), # The text next to the icon
+                    href='https://calendar.app.google/GFN7FhktzVMAc1Th7',
+                    cls='footer-contact-link'
+                ),
+                cls='container footer-content' # Added 'footer-content' for flexbox styling
             )
-        )
+)
 
 @app.get("/")
 def home(session):
@@ -78,37 +83,48 @@ def home(session):
     
     # Track homepage view server-side
     posthog.capture(user_id, 'home_page_viewed')
+
+    # --- YouTube Video Setup ---
+    youtube_video_id = "6Jn3-z7b1Xw"#"TJTgeH5fO7o" # Replace with your actual video ID, e.g., 'dQw4w9WgXcQ'
+    # Common parameters for a seamless hero video:
+    # autoplay=1: Start playing automatically (requires mute=1 in most browsers)
+    # mute=1: Start muted
+    # loop=1&playlist=VIDEO_ID: Loop the video (playlist trick for single videos)
+    # controls=0: Hide player controls
+    # modestbranding=1: Reduce YouTube logo (optional)
+    # showinfo=0: Hide video title and uploader (deprecated, but sometimes works)
+    # autohide=1: Autohide controls (if controls were visible)
+    youtube_embed_url = f"https://www.youtube.com/embed/{youtube_video_id}?autoplay=1&mute=1&loop=1&playlist={youtube_video_id}&controls=0&modestbranding=1&showinfo=0&autohide=1&start=33&end=166"
+
+    video_iframe = Iframe(
+        src=youtube_embed_url,
+        title="DivergenceAI Product Showcase", # Descriptive title for accessibility
+        frameborder="0",
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share",
+        allowfullscreen=True, # Note: fasthtml handles boolean attributes correctly
+        cls="hero-youtube-iframe" # Add a class for easier CSS targeting
+    )
+    # --- End YouTube Video Setup ---
+
+
     return Html(
         head,
         Body(
             header,
             Main(
                 Section(
-                    Canvas(id='emWaveCanvas'),
-                    Div(
-                        Div(
+                    Canvas(id='emWaveCanvas'), # This is your existing canvas
+                    Div( # This is the existing Div(cls='container')
+                        # We'll make this container a flex parent for side-by-side layout
+                        Div( # This is the existing Div(cls='hero-content')
                             H1(Span('AI-powered Engineering Simulations'), cls='hero-h1'),
                             P('From CAD to insights in seconds. Streamline your workflow with AI—faster design cycles, smarter decisions, and seamless engineering.'),
-                            # Form(
-                            #     Input(type='hidden', name='access_key', value='af5f23cb-d08f-4578-b508-8ae2e3edd453'),
-                            #     # Input(type='text', name='name', required=''),
-                            #     Input(type='email', name='email', placeholder='Enter your email', required=''),
-                            #     # Textarea(name='message', required=''),
-                            #     Input(type='checkbox', name='botcheck', style='display: none;', cls='hidden'),
-                            #     Button('Join the waitlist', type='submit', cls='btn btn-contact'),
-                            #     Div(cls='result'),
-                            #     method='POST',
-                            #     id='heroForm'
-                            # ),
-
-
-                            # Wait list modal
                             Button('Join the Waitlist', onclick='showModal()', cls='waitlist-btn'),
                             Div(id='overlay', onclick='closeModal()', cls='overlay'),
                             Div(
                                 Button('X', onclick='closeModal()', cls='close-btn'),
                                 H3('Join the Waitlist'),
-                                Label('Email:', fr='email'),
+                                Label('Email:', fr='email'), # 'for' attribute is 'fr' in fasthtml
                                 Input(type='hidden', name='access_key', id='access_key', value='af5f23cb-d08f-4578-b508-8ae2e3edd453'),
                                 Input(type='email', id='email', required='', placeholder='Enter your email'),
                                 Label('What would you like Divergence AI to do for you?', fr='request'),
@@ -118,9 +134,15 @@ def home(session):
                                 cls='modal'
                             ),
                             Div(cls='result', id='heroFormResult'),
-                            cls='hero-content'
+                            cls='hero-content' # This div will be one flex item (text content)
                         ),
-                        cls='container'                  
+                        # --- New Div to wrap the video iframe ---
+                        Div(
+                            video_iframe,
+                            cls='hero-video-wrapper' # This div will be the other flex item (video)
+                        ),
+                        # --- End New Div ---
+                        cls='container hero-layout-container' # Added 'hero-layout-container' for flex styling
                     ),
                 cls='hero'
             ),
@@ -243,8 +265,8 @@ def home(session):
                     H2('Key Benefits', cls='benefits-title'),
                     Div(
                         Div(
-                            H3('Automatic Preprocessing and Smart Meshing'),
-                            P('Onboard geometry, simplify, iterate meshing, set up boundary conditions and simulation parameters.'),
+                            H3('AI-Powered Postprocessing & Insights'),
+                            P('Intuitive natural language interface allows users to interact with simulation results. The AI generates key visualizations, highlights insights, and enables easy sharing - making high-fidelity simulations more accessible to engineers.'),
                             cls='benefit-card'
                         ),
                         Div(
@@ -253,8 +275,8 @@ def home(session):
                             cls='benefit-card'
                         ),
                         Div(
-                            H3('AI-Powered Postprocessing & Insights'),
-                            P('Intuitive natural language interface allows users to interact with simulation results. The AI generates key visualizations, highlights insights, and enables easy sharing - making high-fidelity simulations more accessible to engineers.'),
+                            H3('Automatic Preprocessing and Smart Meshing'),
+                            P('Onboard geometry, simplify, iterate meshing, set up boundary conditions and simulation parameters.'),
                             cls='benefit-card'
                         ),
                         cls='benefits-grid'

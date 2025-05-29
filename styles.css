@@ -117,29 +117,60 @@
     box-shadow: 0 4px 12px rgba(0, 102, 255, 0.3);
   }
   
-  .hero {
-    position: relative;
-    padding: 12rem 0 6rem;
-    min-height: 100vh;
+  /* Hero section layout adjustments */
+.hero .container.hero-layout-container { /* Target the container inside hero specifically */
     display: flex;
-    align-items: center;
-    overflow: hidden;
-  }
-  
-  .hero-content {
+    align-items: center; /* Vertically align items if they have different heights */
+    gap: 2rem; /* Adjust space between text and video */
+    flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+}
+
+.hero .hero-content { /* The existing text content block */
+    flex: 1 1 50%; /* Grow, shrink, with a basis of 50% */
+    min-width: 300px; /* Prevent it from becoming too narrow */
+    /* Add any specific styling for the text block here */
+}
+
+.hero-video-wrapper {
+    flex: 1 1 40%; /* Grow, shrink, with a basis of ~40-45% */
+    min-width: 300px; /* Prevent it from becoming too narrow */
+    /* Aspect ratio for responsive video - padding-bottom trick */
     position: relative;
-    z-index: 1;
-    width: 60rem;
-    margin: 0 auto;
-    text-align: center;
-    background-color: rgba(0, 0, 0, 0.6);
-    padding: 2rem;
-    border-radius: 10px;
-  }
-  
+    padding-bottom: 56.25%; /* 16:9 aspect ratio (9 / 16 * 100) */
+    height: 0;
+    overflow: hidden;
+    border-radius: 8px; /* Optional: rounded corners for the video */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* Optional: subtle shadow */
+}
+
+.hero-video-wrapper .hero-youtube-iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0; /* Important: remove default iframe border */
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) { /* Adjust breakpoint as needed */
+    .hero .container.hero-layout-container {
+        flex-direction: column; /* Stack items vertically */
+    }
+
+    .hero .hero-content,
+    .hero-video-wrapper {
+        flex-basis: 100%; /* Make each item take full width when stacked */
+    }
+
+    .hero-video-wrapper {
+        margin-top: 2rem; /* Add some space above the video when stacked */
+    }
+}
+
   .hero-h1 {
-    font-size: 4em;
-    text-align: center;
+    font-size: 2em;
+    /* text-align: center; */
     background: linear-gradient(90deg, #c084fc, #60a5fa);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -189,6 +220,7 @@
     border: none;
     cursor: pointer;
     border-radius: 5px;
+
 }
 
 /* Modal styling */
@@ -427,12 +459,63 @@
   
   
   
-  footer {
-    padding: 2rem 0;
-    text-align: center;
-    color: var(--color-text-muted);
-    font-size: 0.9rem;
-  }
+/* Footer Styles */
+/* --- FOOTER SPECIFIC STYLES --- */
+footer { /* Target the footer element directly */
+    background-color: var(--color-footer-background, #000000); /* Use a variable or a fallback color */
+    width: 100%;
+    box-sizing: border-box;
+
+    /* === THIS IS THE KEY === */
+    /* Add vertical padding directly to the footer element */
+    padding-top: 2rem;    /* Adjust this value for desired height */
+    padding-bottom: 2rem; /* Adjust this value for desired height */
+    /* The horizontal padding will be handled by the .container INSIDE the footer */
+}
+
+
+.footer-content {
+    display: flex;
+    justify-content: space-between; /* Pushes copyright to left, contact link to right */
+    align-items: center;
+    flex-wrap: wrap; /* Allows items to wrap on smaller screens */
+    gap: 1rem; /* Space between items if they wrap */
+}
+
+.copyright-text {
+    margin: 0; /* Remove default P margin if needed */
+    font-size: 1em;
+    color: #555; /* Adjust as needed */
+}
+
+.footer-contact-link {
+    display: inline-flex; /* Aligns icon and text nicely on the same line */
+    align-items: center;
+    gap: 0.5em; /* Space between the icon and the "Contact Us" text */
+    text-decoration: none;
+    color: #337ab7; /* Default link color - adjust to your theme */
+    font-size: 1em;
+}
+
+.footer-contact-link:hover,
+.footer-contact-link:focus {
+    color: #23527c; /* Darker link color on hover - adjust to your theme */
+    text-decoration: underline;
+}
+
+
+/* Responsive adjustments for footer (optional) */
+@media (max-width: 576px) { /* Adjust breakpoint as needed */
+    .footer-content {
+        flex-direction: column; /* Stack copyright and contact link vertically */
+        align-items: center; /* Center items when stacked */
+        text-align: center;
+    }
+
+    .copyright-text {
+        margin-bottom: 0.75rem; /* Add some space below copyright when stacked */
+    }
+}
   
   @media (max-width: 768px) {
     h1 {
