@@ -19,7 +19,37 @@ head = Head(
         Meta(name='viewport', content='width=device-width, initial-scale=1.0'),
         Title('DivergenceAI - Advanced Electromagnetic Simulation Tool'),
         Link(rel='stylesheet', href='styles.css'),
-        Script(src='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'),
+        Script(src='https://polyfill.io/v3/polyfill.min.js?features=es6'),
+        Script("""
+        window.MathJax = {
+          tex: {
+            inlineMath: [['\\\\(', '\\\\)'], ['$', '$']],
+            displayMath: [['\\\\[', '\\\\]'], ['$$', '$$']],
+            processEscapes: true,
+            processEnvironments: true
+          },
+          options: {
+            ignoreHtmlClass: 'tex2jax_ignore',
+            processHtmlClass: 'tex2jax_process'
+          },
+          startup: {
+            ready: function () {
+              MathJax.startup.defaultReady();
+              MathJax.startup.promise.then(function () {
+                // Ensure processing happens after page load
+                document.addEventListener('DOMContentLoaded', function() {
+                  MathJax.typesetPromise();
+                });
+                // Also trigger immediately in case DOM is already loaded
+                if (document.readyState === 'complete' || document.readyState === 'interactive') {
+                  MathJax.typesetPromise();
+                }
+              });
+            }
+          }
+        };
+        """, type="text/javascript"),
+        Script(src='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js', async_=True),
     )
 
 header = Header(
@@ -46,7 +76,7 @@ header = Header(
                         cls='lucide lucide-wand-2'
                     ),
                     
-                    H1(Span('\\( \\nabla \\cdot \\) AI'), style='display: inline-block; margin-right: 2rem;'),
+                    H1(Span('\\( \\nabla \\cdot \\) AI', id='logo-math'), style='display: inline-block; margin-right: 2rem;'),
                     H2(Span('DivergenceAI'), style='display: inline-block; margin-right: 1rem;'),
                     href='/',
                     cls='logo'
