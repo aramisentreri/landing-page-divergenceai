@@ -56,7 +56,7 @@ header = Header(
                     A('Benefits', href='#benefits'),
                     A('Pricing', href='#pricing'),
                     A('Blog', href='/blog', cls='active'),
-                    A(Button('Join the waitlist', cls='btn btn-primary'), href='#cta')
+                    A(Button('Join the beta', cls='btn btn-primary'), href='#pricing')
                 ),
                 cls='container'
             )
@@ -120,11 +120,12 @@ def home(session):
                         Div( # This is the existing Div(cls='hero-content')
                             H1(Span('AI-powered Engineering Simulations'), cls='hero-h1'),
                             P('From CAD to insights in seconds. Streamline your workflow with AI—faster design cycles, smarter decisions, and seamless engineering.'),
-                            Button('Join the Waitlist', onclick='showModal()', cls='waitlist-btn'),
+                            # Button('Join the beta', onclick='showModal()', cls='waitlist-btn'),
+                            A(Button('Join the beta', cls='btn btn-primary'), href='#pricing'),
                             Div(id='overlay', onclick='closeModal()', cls='overlay'),
                             Div(
                                 Button('X', onclick='closeModal()', cls='close-btn'),
-                                H3('Join the Waitlist'),
+                                H3('Join the beta'),
                                 Label('Email:', fr='email'), # 'for' attribute is 'fr' in fasthtml
                                 Input(type='hidden', name='access_key', id='access_key', value='af5f23cb-d08f-4578-b508-8ae2e3edd453'),
                                 Input(type='email', id='email', required='', placeholder='Enter your email'),
@@ -286,45 +287,6 @@ def home(session):
                 ),
                 id='benefits'
             ),
-            # Section(
-            #     Div(
-            #         H2('Pricing Plans', cls='pricing-title'),
-            #         P('Choose the plan that fits your needs', cls='pricing-subtitle'),
-            #         Div(
-            #             Div(
-            #                 H3('Free Tier', cls='tier-title'),
-            #                 Div('$0', cls='tier-price'),
-            #                 P('per month', cls='tier-period'),
-            #                 Ul(
-            #                     Li('Full access to core simulation assistant tools'),
-            #                     Li('Community support'),
-            #                     Li('Basic visualizations'),
-            #                     cls='tier-features'
-            #                 ),
-            #                 P('Get full access to our core simulation assistant tools at no cost. In exchange, your design metadata (not the design themselves) and usage patterns may be used to improve our models and enhance the platform for everyone. Ideal for individuals, hobbyists, and early-stage projects.', cls='tier-description'),
-            #                 Button('Get Started', cls='tier-btn tier-btn-free'),
-            #                 cls='pricing-tier'
-            #             ),
-            #             Div(
-            #                 H3('Enterprise Tier', cls='tier-title'),
-            #                 Div('Contact Sales', cls='tier-price-contact'),
-            #                 P('custom pricing', cls='tier-period'),
-            #                 Ul(
-            #                     Li('All core features'),
-            #                     Li('Enhanced data isolation & encryption'),
-            #                     Li('Usage controls'),
-            #                     Li('Priority support'),
-            #                     Li('No data used for model training'),
-            #                     cls='tier-features'
-            #                 ),
-            #                 P('Designed for teams with strict security, privacy, or regulatory needs. Includes all core features plus enhanced data isolation, encryption, and usage controls. No data is used for model training—your designs and activity remain fully private.', cls='tier-description'),
-            #                 Button('Contact Sales', onclick='showContactModal()', cls='tier-btn tier-btn-enterprise'),
-            #                 cls='pricing-tier enterprise-tier'
-            #             ),
-            #             cls='pricing-grid'
-            #         ),
-            #         cls='container'
-            #     ),
             Section(
                 Div(
                     H2('Pricing Plans', cls='pricing-title'),
@@ -336,8 +298,7 @@ def home(session):
                             P('per month', cls='tier-period'),
                             Ul(
                                 Li('Full access to core simulation assistant tools'),
-                                Li('Community support (Discord & forums)'),
-                                Li('Basic visualizations'),
+                                Li('Community support (Slack)'),
                                 Li('Design metadata may be used to improve models'),
                                 cls='tier-features'
                             ),
@@ -402,40 +363,77 @@ def home(session):
                 Div(cls='result', id='contactFormResult'),
                 id='pricing'
             ),
-            Section(
-                Div(
-                    H2('Ready to Transform Your Design Process?'),
-                    P('Join the waitlist and be the first to see how DivergenceAI can revolutionize your simulations.'),
+        #     Section(
+        #         Div(
+        #             H2('Ready to Transform Your Design Process?'),
+        #             P('Join the waitlist and be the first to see how DivergenceAI can revolutionize your simulations.'),
                     
-                    # Wait list modal
-                    Button('Join the Waitlist', onclick='showModal()', cls='waitlist-btn'),
-                    Div(id='overlay', onclick='closeModal()', cls='overlay'),
-                    Div(
-                        Button('X', onclick='closeModal()', cls='close-btn'),
-                        H3('Join the Waitlist'),
-                        Label('Email:', fr='email'),
-                        Input(type='hidden', name='access_key', id='access_key', value='af5f23cb-d08f-4578-b508-8ae2e3edd453'),
-                        Input(type='email', id='email', required='', placeholder='Enter your email'),
-                        Label('What would you like Divergence AI to do for you?', fr='request'),
-                        Textarea(id='request', rows='4', required='', placeholder="Imagine this is DivergenceAI's input box, what would you ask it to do?"),
-                        Button('Submit', onclick='submitForm()', cls='btn btn-contact'),
-                        id='modal',
-                        cls='modal'
-                    ),
-                    Div(cls='result', id='ctaFormResult'),
+        #             # Wait list modal
+        #             Button('Join the Waitlist', onclick='showModal()', cls='waitlist-btn'),
+        #             Div(id='overlay', onclick='closeModal()', cls='overlay'),
+        #             Div(
+        #                 Button('X', onclick='closeModal()', cls='close-btn'),
+        #                 H3('Join the Waitlist'),
+        #                 Label('Email:', fr='email'),
+        #                 Input(type='hidden', name='access_key', id='access_key', value='af5f23cb-d08f-4578-b508-8ae2e3edd453'),
+        #                 Input(type='email', id='email', required='', placeholder='Enter your email'),
+        #                 Label('What would you like Divergence AI to do for you?', fr='request'),
+        #                 Textarea(id='request', rows='4', required='', placeholder="Imagine this is DivergenceAI's input box, what would you ask it to do?"),
+        #                 Button('Submit', onclick='submitForm()', cls='btn btn-contact'),
+        #                 id='modal',
+        #                 cls='modal'
+        #             ),
+        #             Div(cls='result', id='ctaFormResult'),
 
-                    cls='container',
+        #             cls='container',
                     
+        #         ),
+        #         cls='cta',
+        #         # id='cta'
+        #     )
+        # ),
+        Section(
+            Div(
+                H2('Ready to Transform Your Design Process?'),
+                P('Use the public beta of DivergenceAI today, and help shape the future of simulation.'),
+                
+                # Primary CTA: Try Beta Now
+                A(Button('Try the Beta Now', cls='btn btn-contact'), href='https://dashboard.app.divergenceai.xyz'),  # Replace with actual beta link
+
+                # Spacer between sections
+                Div(cls='cta-spacer'),
+                
+                # Optional Feedback CTA
+                P('Want to tell us what you’d like DivergenceAI to do for you?'),
+                Button('Give Feedback', onclick='showModal()', cls='waitlist-btn'),  # Reuse modal for feedback input
+
+                # Feedback Modal (formerly waitlist)
+                Div(id='overlay', onclick='closeModal()', cls='overlay'),
+                Div(
+                    Button('X', onclick='closeModal()', cls='close-btn'),
+                    H3('What should DivergenceAI do for you?'),
+                    Label('Email:', fr='email'),
+                    Input(type='hidden', name='access_key', id='access_key', value='af5f23cb-d08f-4578-b508-8ae2e3edd453'),
+                    Input(type='email', id='email', required='', placeholder='Enter your email'),
+                    Label('Imagine this is DivergenceAI’s input box. What would you ask it to do?', fr='request'),
+                    Textarea(id='request', rows='4', required='', placeholder="What would you want DivergenceAI to simulate or analyze for you?"),
+                    Button('Submit', onclick='submitForm()', cls='btn btn-contact'),
+                    id='modal',
+                    cls='modal'
                 ),
-                cls='cta',
-                # id='cta'
-            )
+                Div(cls='result', id='ctaFormResult'),
+
+                cls='container',
+            ),
+            cls='cta',
+            id='cta')
         ),
         footer,
         Script(src='animations.js')
     ),
     lang='en'
 )
+
 @app.get("/blog")
 def blog(session):
     Style('.simulation-landscape {\r\n        font-family: Arial, sans-serif;\r\n        background-color: #0d0d0d;\r\n        color: white;\r\n        padding: 20px;\r\n        border-radius: 8px;\r\n    }\r\n    .simulation-landscape h1 {\r\n        font-size: 3em;\r\n        background: linear-gradient(90deg, #c084fc, #60a5fa);\r\n        -webkit-background-clip: text;\r\n        -webkit-text-fill-color: transparent;\r\n    }\r\n    .grid {\r\n        display: grid;\r\n        grid-template-columns: repeat(2, 1fr);\r\n        gap: 20px;\r\n        margin-top: 30px;\r\n    }\r\n    .card {\r\n        background-color: #1f1f1f;\r\n        padding: 20px;\r\n        border-radius: 8px;\r\n    }\r\n    .card h2 {\r\n        font-size: 1.5em;\r\n        margin-bottom: 10px;\r\n    }\r\n    .card p {\r\n        font-size: 1.1em;\r\n        color: #d4d4d4;\r\n    }')

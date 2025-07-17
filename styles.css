@@ -936,3 +936,10 @@ footer { /* Target the footer element directly */
     font-size: 2rem;
   }
 }
+
+.cta-spacer {
+  margin-top: 3rem;
+  margin-bottom: 1.5rem;
+  border-top: 1px solid #eee;
+  width: 100%;
+}
