@@ -54,6 +54,7 @@ header = Header(
                 Nav(
                     # A('Features', href='#features'),
                     A('Benefits', href='#benefits'),
+                    A('Pricing', href='#pricing'),
                     A('Blog', href='/blog', cls='active'),
                     A(Button('Join the waitlist', cls='btn btn-primary'), href='#cta')
                 ),
@@ -284,6 +285,73 @@ def home(session):
                     cls='container'
                 ),
                 id='benefits'
+            ),
+            Section(
+                Div(
+                    H2('Pricing Plans', cls='pricing-title'),
+                    P('Choose the plan that fits your needs', cls='pricing-subtitle'),
+                    Div(
+                        Div(
+                            H3('Free Tier', cls='tier-title'),
+                            Div('$0', cls='tier-price'),
+                            P('per month', cls='tier-period'),
+                            Ul(
+                                Li('Full access to core simulation assistant tools'),
+                                Li('Community support'),
+                                Li('Basic visualizations'),
+                                cls='tier-features'
+                            ),
+                            P('Get full access to our core simulation assistant tools at no cost. In exchange, your design metadata (not the design themselves) and usage patterns may be used to improve our models and enhance the platform for everyone. Ideal for individuals, hobbyists, and early-stage projects.', cls='tier-description'),
+                            Button('Get Started', cls='tier-btn tier-btn-free'),
+                            cls='pricing-tier'
+                        ),
+                        Div(
+                            H3('Enterprise Tier', cls='tier-title'),
+                            Div('Contact Sales', cls='tier-price-contact'),
+                            P('custom pricing', cls='tier-period'),
+                            Ul(
+                                Li('All core features'),
+                                Li('Enhanced data isolation & encryption'),
+                                Li('Usage controls'),
+                                Li('Priority support'),
+                                Li('No data used for model training'),
+                                cls='tier-features'
+                            ),
+                            P('Designed for teams with strict security, privacy, or regulatory needs. Includes all core features plus enhanced data isolation, encryption, and usage controls. No data is used for model training—your designs and activity remain fully private.', cls='tier-description'),
+                            Button('Contact Sales', onclick='showContactModal()', cls='tier-btn tier-btn-enterprise'),
+                            cls='pricing-tier enterprise-tier'
+                        ),
+                        cls='pricing-grid'
+                    ),
+                    cls='container'
+                ),
+                # Contact Sales Modal
+                Div(id='contactOverlay', onclick='closeContactModal()', cls='overlay'),
+                Div(
+                    Button('X', onclick='closeContactModal()', cls='close-btn'),
+                    H3('Contact Sales'),
+                    P('Tell us about your enterprise needs and we\'ll get back to you within 24 hours.'),
+                    Label('Company Name:', fr='company'),
+                    Input(type='text', id='company', required='', placeholder='Enter your company name'),
+                    Label('Email:', fr='contactEmail'),
+                    Input(type='email', id='contactEmail', required='', placeholder='Enter your email'),
+                    Label('Team Size:', fr='teamSize'),
+                    Select(
+                        Option('1-10 employees', value='1-10'),
+                        Option('11-50 employees', value='11-50'),
+                        Option('51-200 employees', value='51-200'),
+                        Option('200+ employees', value='200+'),
+                        id='teamSize',
+                        required=''
+                    ),
+                    Label('Tell us about your requirements:', fr='requirements'),
+                    Textarea(id='requirements', rows='4', required='', placeholder='What are your specific security, privacy, or compliance needs?'),
+                    Button('Submit', onclick='submitContactForm()', cls='btn btn-contact'),
+                    id='contactModal',
+                    cls='modal'
+                ),
+                Div(cls='result', id='contactFormResult'),
+                id='pricing'
             ),
             Section(
                 Div(
