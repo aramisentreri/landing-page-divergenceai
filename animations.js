@@ -342,7 +342,7 @@ function submitContactForm() {
             })
         });
         console.log("PostHog event sent for enterprise contact");
-        
+        closeContactModal();
     } else {
         alert("Please fill out all fields.");
     }

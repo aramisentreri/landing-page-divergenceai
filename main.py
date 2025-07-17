@@ -286,23 +286,67 @@ def home(session):
                 ),
                 id='benefits'
             ),
+            # Section(
+            #     Div(
+            #         H2('Pricing Plans', cls='pricing-title'),
+            #         P('Choose the plan that fits your needs', cls='pricing-subtitle'),
+            #         Div(
+            #             Div(
+            #                 H3('Free Tier', cls='tier-title'),
+            #                 Div('$0', cls='tier-price'),
+            #                 P('per month', cls='tier-period'),
+            #                 Ul(
+            #                     Li('Full access to core simulation assistant tools'),
+            #                     Li('Community support'),
+            #                     Li('Basic visualizations'),
+            #                     cls='tier-features'
+            #                 ),
+            #                 P('Get full access to our core simulation assistant tools at no cost. In exchange, your design metadata (not the design themselves) and usage patterns may be used to improve our models and enhance the platform for everyone. Ideal for individuals, hobbyists, and early-stage projects.', cls='tier-description'),
+            #                 Button('Get Started', cls='tier-btn tier-btn-free'),
+            #                 cls='pricing-tier'
+            #             ),
+            #             Div(
+            #                 H3('Enterprise Tier', cls='tier-title'),
+            #                 Div('Contact Sales', cls='tier-price-contact'),
+            #                 P('custom pricing', cls='tier-period'),
+            #                 Ul(
+            #                     Li('All core features'),
+            #                     Li('Enhanced data isolation & encryption'),
+            #                     Li('Usage controls'),
+            #                     Li('Priority support'),
+            #                     Li('No data used for model training'),
+            #                     cls='tier-features'
+            #                 ),
+            #                 P('Designed for teams with strict security, privacy, or regulatory needs. Includes all core features plus enhanced data isolation, encryption, and usage controls. No data is used for model training—your designs and activity remain fully private.', cls='tier-description'),
+            #                 Button('Contact Sales', onclick='showContactModal()', cls='tier-btn tier-btn-enterprise'),
+            #                 cls='pricing-tier enterprise-tier'
+            #             ),
+            #             cls='pricing-grid'
+            #         ),
+            #         cls='container'
+            #     ),
             Section(
                 Div(
                     H2('Pricing Plans', cls='pricing-title'),
-                    P('Choose the plan that fits your needs', cls='pricing-subtitle'),
+                    P('Choose the plan that fits your stage—help shape the future or scale with confidence.', cls='pricing-subtitle'),
                     Div(
                         Div(
-                            H3('Free Tier', cls='tier-title'),
+                            H3('Community Tier', cls='tier-title'),
                             Div('$0', cls='tier-price'),
                             P('per month', cls='tier-period'),
                             Ul(
                                 Li('Full access to core simulation assistant tools'),
-                                Li('Community support'),
+                                Li('Community support (Discord & forums)'),
                                 Li('Basic visualizations'),
+                                Li('Design metadata may be used to improve models'),
                                 cls='tier-features'
                             ),
-                            P('Get full access to our core simulation assistant tools at no cost. In exchange, your design metadata (not the design themselves) and usage patterns may be used to improve our models and enhance the platform for everyone. Ideal for individuals, hobbyists, and early-stage projects.', cls='tier-description'),
-                            Button('Get Started', cls='tier-btn tier-btn-free'),
+                            P(
+                                'This plan is free during the beta period. In exchange, we collect anonymized metadata and usage to help us improve the platform. Ideal for individuals, students, and early adopters shaping the future of simulation tools.',
+                                cls='tier-description'
+                            ),
+                            P('🚀 Early access badge: Help us build faster with your feedback.', cls='tier-badge'),
+                            A(Button('Get Started Free', cls='tier-btn tier-btn-free'), href='https://dashboard.app.divergenceai.xyz'),
                             cls='pricing-tier'
                         ),
                         Div(
@@ -312,12 +356,16 @@ def home(session):
                             Ul(
                                 Li('All core features'),
                                 Li('Enhanced data isolation & encryption'),
-                                Li('Usage controls'),
-                                Li('Priority support'),
+                                Li('Usage controls & private deployments'),
+                                Li('Priority support & feature requests'),
                                 Li('No data used for model training'),
                                 cls='tier-features'
                             ),
-                            P('Designed for teams with strict security, privacy, or regulatory needs. Includes all core features plus enhanced data isolation, encryption, and usage controls. No data is used for model training—your designs and activity remain fully private.', cls='tier-description'),
+                            P(
+                                'Built for companies with strict security and privacy needs. Includes full control over data, private deployments, and white-glove onboarding. Your data stays private—always.',
+                                cls='tier-description'
+                            ),
+                            P('🛡️ We’re early—Enterprise pricing is flexible and based on your scale.', cls='tier-badge'),
                             Button('Contact Sales', onclick='showContactModal()', cls='tier-btn tier-btn-enterprise'),
                             cls='pricing-tier enterprise-tier'
                         ),
@@ -325,6 +373,7 @@ def home(session):
                     ),
                     cls='container'
                 ),
+
                 # Contact Sales Modal
                 Div(id='contactOverlay', onclick='closeContactModal()', cls='overlay'),
                 Div(
@@ -357,17 +406,7 @@ def home(session):
                 Div(
                     H2('Ready to Transform Your Design Process?'),
                     P('Join the waitlist and be the first to see how DivergenceAI can revolutionize your simulations.'),
-                    # Form(
-                    #         Input(type='hidden', name='access_key', value='af5f23cb-d08f-4578-b508-8ae2e3edd453'),
-                    #         # Input(type='text', name='name', required=''),
-                    #         Input(type='email', name='email', placeholder='Enter your email', required=''),
-                    #         # Textarea(name='message', required=''),
-                    #         Input(type='checkbox', name='botcheck', style='display: none;', cls='hidden'),
-                    #         Button('Join the waitlist', type='submit', cls='btn btn-contact'),
-                    #         Div(cls='result'),
-                    #         method='POST',
-                    #         id='heroForm'
-                    #     ),
+                    
                     # Wait list modal
                     Button('Join the Waitlist', onclick='showModal()', cls='waitlist-btn'),
                     Div(id='overlay', onclick='closeModal()', cls='overlay'),
