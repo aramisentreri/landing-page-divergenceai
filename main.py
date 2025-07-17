@@ -83,7 +83,7 @@ def home(session):
         session['user_id'] = user_id    
     
     # Track homepage view server-side
-    posthog.capture(user_id, 'home_page_viewed')
+    posthog.capture('home_page_viewed', distinct_id=user_id)
 
     # --- YouTube Video Setup ---
     youtube_video_id = "6Jn3-z7b1Xw"#"TJTgeH5fO7o" # Replace with your actual video ID, e.g., 'dQw4w9WgXcQ'
@@ -407,7 +407,7 @@ def blog(session):
         user_id = str(uuid.uuid4())
         session['user_id'] = user_id    
     
-    posthog.capture(user_id, 'blog_page_viewed')
+    posthog.capture('blog_page_viewed', distinct_id=user_id)
     
     return Html(
     head,
@@ -491,12 +491,12 @@ async def capture_event(session, request):
         user_id = str(uuid.uuid4())
         session['user_id'] = user_id    
     
-
+    event_name = data.get('event')
     posthog.capture(
-        user_id,  # You might want to generate a unique ID here
-        data.get('event'),
-        {
-            'email': data.get('email'), # TODO: Not all events have an email
+        event_name,
+        distinct_id=user_id,
+        properties={
+            'email': data.get('email'),
             'has_request': bool(data.get('request'))
         }
     )
