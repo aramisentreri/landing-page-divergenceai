@@ -197,7 +197,18 @@ function submitForm() {
     }
 }
 
-
+function simpleEventCapture(event_name) {
+    fetch('/capture-event', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            event: event_name
+        })
+    });
+    console.log("PostHog event sent");
+}
 
 
 // Start animations when the page loads

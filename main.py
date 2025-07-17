@@ -307,7 +307,7 @@ def home(session):
                                 cls='tier-description'
                             ),
                             P('🚀 Early access badge: Help us build faster with your feedback.', cls='tier-badge'),
-                            A(Button('Get Started Free', cls='tier-btn tier-btn-free'), href='https://dashboard.app.divergenceai.xyz'),
+                            A(Button('Get Started Free', cls='tier-btn tier-btn-free'), href='https://dashboard.app.divergenceai.xyz', onclick='simpleEventCapture("community_tier_clicked")'), 
                             cls='pricing-tier'
                         ),
                         Div(
@@ -363,71 +363,42 @@ def home(session):
                 Div(cls='result', id='contactFormResult'),
                 id='pricing'
             ),
-        #     Section(
-        #         Div(
-        #             H2('Ready to Transform Your Design Process?'),
-        #             P('Join the waitlist and be the first to see how DivergenceAI can revolutionize your simulations.'),
-                    
-        #             # Wait list modal
-        #             Button('Join the Waitlist', onclick='showModal()', cls='waitlist-btn'),
-        #             Div(id='overlay', onclick='closeModal()', cls='overlay'),
-        #             Div(
-        #                 Button('X', onclick='closeModal()', cls='close-btn'),
-        #                 H3('Join the Waitlist'),
-        #                 Label('Email:', fr='email'),
-        #                 Input(type='hidden', name='access_key', id='access_key', value='af5f23cb-d08f-4578-b508-8ae2e3edd453'),
-        #                 Input(type='email', id='email', required='', placeholder='Enter your email'),
-        #                 Label('What would you like Divergence AI to do for you?', fr='request'),
-        #                 Textarea(id='request', rows='4', required='', placeholder="Imagine this is DivergenceAI's input box, what would you ask it to do?"),
-        #                 Button('Submit', onclick='submitForm()', cls='btn btn-contact'),
-        #                 id='modal',
-        #                 cls='modal'
-        #             ),
-        #             Div(cls='result', id='ctaFormResult'),
-
-        #             cls='container',
-                    
-        #         ),
-        #         cls='cta',
-        #         # id='cta'
-        #     )
-        # ),
-        Section(
-            Div(
-                H2('Ready to Transform Your Design Process?'),
-                P('Use the public beta of DivergenceAI today, and help shape the future of simulation.'),
-                
-                # Primary CTA: Try Beta Now
-                A(Button('Try the Beta Now', cls='btn btn-contact'), href='https://dashboard.app.divergenceai.xyz'),  # Replace with actual beta link
-
-                # Spacer between sections
-                Div(cls='cta-spacer'),
-                
-                # Optional Feedback CTA
-                P('Want to tell us what you’d like DivergenceAI to do for you?'),
-                Button('Give Feedback', onclick='showModal()', cls='waitlist-btn'),  # Reuse modal for feedback input
-
-                # Feedback Modal (formerly waitlist)
-                Div(id='overlay', onclick='closeModal()', cls='overlay'),
+            Section(
                 Div(
-                    Button('X', onclick='closeModal()', cls='close-btn'),
-                    H3('What should DivergenceAI do for you?'),
-                    Label('Email:', fr='email'),
-                    Input(type='hidden', name='access_key', id='access_key', value='af5f23cb-d08f-4578-b508-8ae2e3edd453'),
-                    Input(type='email', id='email', required='', placeholder='Enter your email'),
-                    Label('Imagine this is DivergenceAI’s input box. What would you ask it to do?', fr='request'),
-                    Textarea(id='request', rows='4', required='', placeholder="What would you want DivergenceAI to simulate or analyze for you?"),
-                    Button('Submit', onclick='submitForm()', cls='btn btn-contact'),
-                    id='modal',
-                    cls='modal'
-                ),
-                Div(cls='result', id='ctaFormResult'),
+                    H2('Ready to Transform Your Design Process?'),
+                    P('Use the public beta of DivergenceAI today, and help shape the future of simulation.'),
+                    
+                    # Primary CTA: Try Beta Now
+                    A(Button('Try the Beta Now', cls='btn btn-contact'), href='https://dashboard.app.divergenceai.xyz'),  # Replace with actual beta link
 
-                cls='container',
+                    # Spacer between sections
+                    Div(cls='cta-spacer'),
+                    
+                    # Optional Feedback CTA
+                    P('Want to tell us what you’d like DivergenceAI to do for you?'),
+                    Button('Give Feedback', onclick='showModal()', cls='waitlist-btn'),  # Reuse modal for feedback input
+
+                    # Feedback Modal (formerly waitlist)
+                    Div(id='overlay', onclick='closeModal()', cls='overlay'),
+                    Div(
+                        Button('X', onclick='closeModal()', cls='close-btn'),
+                        H3('What should DivergenceAI do for you?'),
+                        Label('Email:', fr='email'),
+                        Input(type='hidden', name='access_key', id='access_key', value='af5f23cb-d08f-4578-b508-8ae2e3edd453'),
+                        Input(type='email', id='email', required='', placeholder='Enter your email'),
+                        Label('Imagine this is DivergenceAI’s input box. What would you ask it to do?', fr='request'),
+                        Textarea(id='request', rows='4', required='', placeholder="What would you want DivergenceAI to simulate or analyze for you?"),
+                        Button('Submit', onclick='submitForm()', cls='btn btn-contact'),
+                        id='modal',
+                        cls='modal'
+                    ),
+                    Div(cls='result', id='ctaFormResult'),
+
+                    cls='container',
+                ),
+                cls='cta',
+                id='cta')
             ),
-            cls='cta',
-            id='cta')
-        ),
         footer,
         Script(src='animations.js')
     ),
