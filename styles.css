@@ -700,3 +700,246 @@ footer { /* Target the footer element directly */
       font-size: 1.2rem;
     }
   }  
+
+/* Pricing Section Styles */
+#pricing {
+  padding: 6rem 0;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.pricing-title {
+  font-size: 2.5rem;
+  background: linear-gradient(90deg, #a855f7, #38bdf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.pricing-subtitle {
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 1.2rem;
+  margin-bottom: 3rem;
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 3rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.pricing-tier {
+  padding: 3rem 2rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  text-align: center;
+  position: relative;
+}
+
+.pricing-tier:hover {
+  transform: translateY(-5px);
+  border-color: rgba(168, 85, 247, 0.3);
+  box-shadow: 0 20px 40px rgba(168, 85, 247, 0.1);
+}
+
+.enterprise-tier {
+  border-color: rgba(168, 85, 247, 0.3);
+  background: rgba(168, 85, 247, 0.05);
+}
+
+.tier-title {
+  font-size: 1.8rem;
+  color: var(--color-cyan);
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.tier-price {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 0.5rem;
+}
+
+.tier-price-contact {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--color-purple);
+  margin-bottom: 0.5rem;
+}
+
+.tier-period {
+  color: var(--color-text-muted);
+  margin-bottom: 2rem;
+  font-size: 1rem;
+}
+
+.tier-features {
+  list-style: none;
+  padding: 0;
+  margin: 2rem 0;
+  text-align: left;
+}
+
+.tier-features li {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--color-text);
+  position: relative;
+  padding-left: 2rem;
+}
+
+.tier-features li:before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--color-cyan);
+  font-weight: bold;
+}
+
+.tier-features li:last-child {
+  border-bottom: none;
+}
+
+.tier-description {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 2rem 0;
+  text-align: left;
+}
+
+.tier-btn {
+  width: 100%;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+}
+
+.tier-btn-free {
+  background: linear-gradient(90deg, #38bdf8, #06b6d4);
+  color: white;
+}
+
+.tier-btn-free:hover {
+  background: linear-gradient(90deg, #0ea5e9, #0891b2);
+  transform: translateY(-2px);
+}
+
+.tier-btn-enterprise {
+  background: linear-gradient(90deg, #a855f7, #8b5cf6);
+  color: white;
+}
+
+.tier-btn-enterprise:hover {
+  background: linear-gradient(90deg, #9333ea, #7c3aed);
+  transform: translateY(-2px);
+}
+
+/* Contact Modal Styles */
+#contactModal {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--color-background);
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 1001;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+#contactModal h3 {
+  color: var(--color-cyan);
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+#contactModal p {
+  color: var(--color-text-muted);
+  margin-bottom: 1.5rem;
+}
+
+#contactModal label {
+  display: block;
+  color: var(--color-text);
+  margin-bottom: 0.5rem;
+  margin-top: 1rem;
+  font-weight: 500;
+}
+
+#contactModal input,
+#contactModal select,
+#contactModal textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--color-text);
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+#contactModal input:focus,
+#contactModal select:focus,
+#contactModal textarea:focus {
+  outline: none;
+  border-color: var(--color-cyan);
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
+}
+
+#contactOverlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+}
+
+/* Responsive Design for Pricing */
+@media (max-width: 768px) {
+  .pricing-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin: 0 1rem;
+  }
+  
+  .pricing-tier {
+    padding: 2rem 1.5rem;
+  }
+  
+  .tier-price {
+    font-size: 2.5rem;
+  }
+  
+  .pricing-title {
+    font-size: 2rem;
+  }
+}
+
+.cta-spacer {
+  margin-top: 3rem;
+  margin-bottom: 1.5rem;
+  border-top: 1px solid #eee;
+  width: 100%;
+}

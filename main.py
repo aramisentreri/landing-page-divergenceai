@@ -54,8 +54,9 @@ header = Header(
                 Nav(
                     # A('Features', href='#features'),
                     A('Benefits', href='#benefits'),
+                    A('Pricing', href='#pricing'),
                     A('Blog', href='/blog', cls='active'),
-                    A(Button('Join the waitlist', cls='btn btn-primary'), href='#cta')
+                    A(Button('Join the beta', cls='btn btn-primary'), href='#pricing')
                 ),
                 cls='container'
             )
@@ -82,7 +83,7 @@ def home(session):
         session['user_id'] = user_id    
     
     # Track homepage view server-side
-    posthog.capture(user_id, 'home_page_viewed')
+    posthog.capture('home_page_viewed', distinct_id=user_id)
 
     # --- YouTube Video Setup ---
     youtube_video_id = "6Jn3-z7b1Xw"#"TJTgeH5fO7o" # Replace with your actual video ID, e.g., 'dQw4w9WgXcQ'
@@ -119,11 +120,12 @@ def home(session):
                         Div( # This is the existing Div(cls='hero-content')
                             H1(Span('AI-powered Engineering Simulations'), cls='hero-h1'),
                             P('From CAD to insights in seconds. Streamline your workflow with AI—faster design cycles, smarter decisions, and seamless engineering.'),
-                            Button('Join the Waitlist', onclick='showModal()', cls='waitlist-btn'),
+                            # Button('Join the beta', onclick='showModal()', cls='waitlist-btn'),
+                            A(Button('Join the beta', cls='btn btn-primary'), href='#pricing'),
                             Div(id='overlay', onclick='closeModal()', cls='overlay'),
                             Div(
                                 Button('X', onclick='closeModal()', cls='close-btn'),
-                                H3('Join the Waitlist'),
+                                H3('Join the beta'),
                                 Label('Email:', fr='email'), # 'for' attribute is 'fr' in fasthtml
                                 Input(type='hidden', name='access_key', id='access_key', value='af5f23cb-d08f-4578-b508-8ae2e3edd453'),
                                 Input(type='email', id='email', required='', placeholder='Enter your email'),
@@ -287,30 +289,105 @@ def home(session):
             ),
             Section(
                 Div(
+                    H2('Pricing Plans', cls='pricing-title'),
+                    P('Choose the plan that fits your stage—help shape the future or scale with confidence.', cls='pricing-subtitle'),
+                    Div(
+                        Div(
+                            H3('Community Tier', cls='tier-title'),
+                            Div('$0', cls='tier-price'),
+                            P('per month', cls='tier-period'),
+                            Ul(
+                                Li('Full access to core simulation assistant tools'),
+                                Li('Community support (Slack)'),
+                                Li('Design metadata may be used to improve models'),
+                                cls='tier-features'
+                            ),
+                            P(
+                                'This plan is free during the beta period. In exchange, we collect anonymized metadata and usage to help us improve the platform. Ideal for individuals, students, and early adopters shaping the future of simulation tools.',
+                                cls='tier-description'
+                            ),
+                            P('🚀 Early access badge: Help us build faster with your feedback.', cls='tier-badge'),
+                            A(Button('Get Started Free', cls='tier-btn tier-btn-free'), href='https://dashboard.app.divergenceai.xyz', onclick='simpleEventCapture("community_tier_clicked")'), 
+                            cls='pricing-tier'
+                        ),
+                        Div(
+                            H3('Enterprise Tier', cls='tier-title'),
+                            Div('Contact Sales', cls='tier-price-contact'),
+                            P('custom pricing', cls='tier-period'),
+                            Ul(
+                                Li('All core features'),
+                                Li('Enhanced data isolation & encryption'),
+                                Li('Usage controls & private deployments'),
+                                Li('Priority support & feature requests'),
+                                Li('No data used for model training'),
+                                cls='tier-features'
+                            ),
+                            P(
+                                'Built for companies with strict security and privacy needs. Includes full control over data, private deployments, and white-glove onboarding. Your data stays private—always.',
+                                cls='tier-description'
+                            ),
+                            P('🛡️ We’re early—Enterprise pricing is flexible and based on your scale.', cls='tier-badge'),
+                            Button('Contact Sales', onclick='showContactModal()', cls='tier-btn tier-btn-enterprise'),
+                            cls='pricing-tier enterprise-tier'
+                        ),
+                        cls='pricing-grid'
+                    ),
+                    cls='container'
+                ),
+
+                # Contact Sales Modal
+                Div(id='contactOverlay', onclick='closeContactModal()', cls='overlay'),
+                Div(
+                    Button('X', onclick='closeContactModal()', cls='close-btn'),
+                    H3('Contact Sales'),
+                    P('Tell us about your enterprise needs and we\'ll get back to you within 24 hours.'),
+                    Label('Company Name:', fr='company'),
+                    Input(type='text', id='company', required='', placeholder='Enter your company name'),
+                    Label('Email:', fr='contactEmail'),
+                    Input(type='email', id='contactEmail', required='', placeholder='Enter your email'),
+                    Label('Team Size:', fr='teamSize'),
+                    Select(
+                        Option('1-10 employees', value='1-10'),
+                        Option('11-50 employees', value='11-50'),
+                        Option('51-200 employees', value='51-200'),
+                        Option('200+ employees', value='200+'),
+                        id='teamSize',
+                        required=''
+                    ),
+                    Label('Tell us about your requirements:', fr='requirements'),
+                    Textarea(id='requirements', rows='4', required='', placeholder='What are your specific security, privacy, or compliance needs?'),
+                    Button('Submit', onclick='submitContactForm()', cls='btn btn-contact'),
+                    id='contactModal',
+                    cls='modal'
+                ),
+                Div(cls='result', id='contactFormResult'),
+                id='pricing'
+            ),
+            Section(
+                Div(
                     H2('Ready to Transform Your Design Process?'),
-                    P('Join the waitlist and be the first to see how DivergenceAI can revolutionize your simulations.'),
-                    # Form(
-                    #         Input(type='hidden', name='access_key', value='af5f23cb-d08f-4578-b508-8ae2e3edd453'),
-                    #         # Input(type='text', name='name', required=''),
-                    #         Input(type='email', name='email', placeholder='Enter your email', required=''),
-                    #         # Textarea(name='message', required=''),
-                    #         Input(type='checkbox', name='botcheck', style='display: none;', cls='hidden'),
-                    #         Button('Join the waitlist', type='submit', cls='btn btn-contact'),
-                    #         Div(cls='result'),
-                    #         method='POST',
-                    #         id='heroForm'
-                    #     ),
-                    # Wait list modal
-                    Button('Join the Waitlist', onclick='showModal()', cls='waitlist-btn'),
+                    P('Use the public beta of DivergenceAI today, and help shape the future of simulation.'),
+                    
+                    # Primary CTA: Try Beta Now
+                    A(Button('Try the Beta Now', cls='btn btn-contact'), href='https://dashboard.app.divergenceai.xyz'),  # Replace with actual beta link
+
+                    # Spacer between sections
+                    Div(cls='cta-spacer'),
+                    
+                    # Optional Feedback CTA
+                    P('Want to tell us what you’d like DivergenceAI to do for you?'),
+                    Button('Give Feedback', onclick='showModal()', cls='waitlist-btn'),  # Reuse modal for feedback input
+
+                    # Feedback Modal (formerly waitlist)
                     Div(id='overlay', onclick='closeModal()', cls='overlay'),
                     Div(
                         Button('X', onclick='closeModal()', cls='close-btn'),
-                        H3('Join the Waitlist'),
+                        H3('What should DivergenceAI do for you?'),
                         Label('Email:', fr='email'),
                         Input(type='hidden', name='access_key', id='access_key', value='af5f23cb-d08f-4578-b508-8ae2e3edd453'),
                         Input(type='email', id='email', required='', placeholder='Enter your email'),
-                        Label('What would you like Divergence AI to do for you?', fr='request'),
-                        Textarea(id='request', rows='4', required='', placeholder="Imagine this is DivergenceAI's input box, what would you ask it to do?"),
+                        Label('Imagine this is DivergenceAI’s input box. What would you ask it to do?', fr='request'),
+                        Textarea(id='request', rows='4', required='', placeholder="What would you want DivergenceAI to simulate or analyze for you?"),
                         Button('Submit', onclick='submitForm()', cls='btn btn-contact'),
                         id='modal',
                         cls='modal'
@@ -318,17 +395,16 @@ def home(session):
                     Div(cls='result', id='ctaFormResult'),
 
                     cls='container',
-                    
                 ),
                 cls='cta',
-                # id='cta'
-            )
-        ),
+                id='cta')
+            ),
         footer,
         Script(src='animations.js')
     ),
     lang='en'
 )
+
 @app.get("/blog")
 def blog(session):
     Style('.simulation-landscape {\r\n        font-family: Arial, sans-serif;\r\n        background-color: #0d0d0d;\r\n        color: white;\r\n        padding: 20px;\r\n        border-radius: 8px;\r\n    }\r\n    .simulation-landscape h1 {\r\n        font-size: 3em;\r\n        background: linear-gradient(90deg, #c084fc, #60a5fa);\r\n        -webkit-background-clip: text;\r\n        -webkit-text-fill-color: transparent;\r\n    }\r\n    .grid {\r\n        display: grid;\r\n        grid-template-columns: repeat(2, 1fr);\r\n        gap: 20px;\r\n        margin-top: 30px;\r\n    }\r\n    .card {\r\n        background-color: #1f1f1f;\r\n        padding: 20px;\r\n        border-radius: 8px;\r\n    }\r\n    .card h2 {\r\n        font-size: 1.5em;\r\n        margin-bottom: 10px;\r\n    }\r\n    .card p {\r\n        font-size: 1.1em;\r\n        color: #d4d4d4;\r\n    }')
@@ -339,7 +415,7 @@ def blog(session):
         user_id = str(uuid.uuid4())
         session['user_id'] = user_id    
     
-    posthog.capture(user_id, 'blog_page_viewed')
+    posthog.capture('blog_page_viewed', distinct_id=user_id)
     
     return Html(
     head,
@@ -423,12 +499,12 @@ async def capture_event(session, request):
         user_id = str(uuid.uuid4())
         session['user_id'] = user_id    
     
-
+    event_name = data.get('event')
     posthog.capture(
-        user_id,  # You might want to generate a unique ID here
-        data.get('event'),
-        {
-            'email': data.get('email'), # TODO: Not all events have an email
+        event_name,
+        distinct_id=user_id,
+        properties={
+            'email': data.get('email'),
             'has_request': bool(data.get('request'))
         }
     )

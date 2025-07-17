@@ -197,7 +197,18 @@ function submitForm() {
     }
 }
 
-
+function simpleEventCapture(event_name) {
+    fetch('/capture-event', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            event: event_name
+        })
+    });
+    console.log("PostHog event sent");
+}
 
 
 // Start animations when the page loads
@@ -256,6 +267,97 @@ forms.forEach(form => {
         });
     });
 });
+
+// Contact Modal Functions
+function showContactModal() {
+    document.getElementById("contactModal").style.display = "block";
+    document.getElementById("contactOverlay").style.display = "block";
+}
+
+function closeContactModal() {
+    document.getElementById("contactModal").style.display = "none";
+    document.getElementById("contactOverlay").style.display = "none";
+}
+
+function submitContactForm() {
+    let company = document.getElementById("company").value;
+    let contactEmail = document.getElementById("contactEmail").value;
+    let teamSize = document.getElementById("teamSize").value;
+    let requirements = document.getElementById("requirements").value;
+    const resultDiv = document.getElementById('contactFormResult');
+    
+    resultDiv.innerHTML = "Please wait..."
+    
+    if (company && contactEmail && teamSize && requirements) {
+        
+        data = {
+            access_key: 'af5f23cb-d08f-4578-b508-8ae2e3edd453', // Using the same access key
+            company: company,
+            email: contactEmail,
+            team_size: teamSize,
+            requirements: requirements,
+            form_type: 'enterprise_contact'
+        }
+        
+        json = JSON.stringify(data)
+
+        fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: json
+            })
+            .then(async (response) => {
+                let json = await response.json();
+                if (response.status == 200) {
+                    resultDiv.innerHTML = "Thank you! We'll get back to you within 24 hours.";
+                    resultDiv.style.color = "#38bdf8";
+                } else {
+                    console.log(response);
+                    resultDiv.innerHTML = json.message;
+                    resultDiv.style.color = "#ef4444";
+                }
+            })
+            .catch(error => {
+                console.log(error);
+                resultDiv.innerHTML = "Something went wrong! Please try again.";
+                resultDiv.style.color = "#ef4444";
+            })
+            .then(function() {
+                setTimeout(() => {
+                    // Clear form and close modal after successful submission
+                    if (resultDiv.innerHTML.includes("Thank you")) {
+                        document.getElementById("company").value = "";
+                        document.getElementById("contactEmail").value = "";
+                        document.getElementById("teamSize").value = "";
+                        document.getElementById("requirements").value = "";
+                        closeContactModal();
+                    }
+                    resultDiv.innerHTML = "";
+                }, 3000);
+            });
+    
+        // Send PostHog event
+        fetch('/capture-event', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: contactEmail,
+                company: company,
+                team_size: teamSize,
+                event: 'enterprise_contact_form_submitted'
+            })
+        });
+        console.log("PostHog event sent for enterprise contact");
+        closeContactModal();
+    } else {
+        alert("Please fill out all fields.");
+    }
+}
 
 
 
