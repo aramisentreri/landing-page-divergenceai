@@ -66,9 +66,26 @@
   .logo h1 {
     font-size: 3rem;
     font-weight: 2000;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Apply gradient only to the "AI" text part */
+  .logo h1 .logo-text {
     background: linear-gradient(90deg, #c084fc, #60a5fa);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+  }
+
+  /* Style the math symbol separately without gradient */
+  .logo h1 .math-symbol,
+  .logo h1 .math-symbol .MathJax,
+  .logo h1 .math-symbol mjx-container,
+  .logo h1 .math-symbol mjx-container * {
+    color: #c084fc !important;
+    background: none !important;
+    -webkit-text-fill-color: #c084fc !important;
+    -webkit-background-clip: initial !important;
   }
   
   nav {

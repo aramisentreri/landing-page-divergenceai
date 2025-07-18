@@ -33,16 +33,37 @@ head = Head(
             processHtmlClass: 'tex2jax_process'
           },
           startup: {
-            ready: function () {
-              MathJax.startup.defaultReady();
-              MathJax.startup.promise.then(function () {
-                // Ensure processing happens after page load
-                document.addEventListener('DOMContentLoaded', function() {
-                  MathJax.typesetPromise();
-                });
-                // Also trigger immediately in case DOM is already loaded
-                if (document.readyState === 'complete' || document.readyState === 'interactive') {
-                  MathJax.typesetPromise();
+            pageReady: function () {
+              return MathJax.startup.defaultPageReady().then(function () {
+                // Function to fix math elements styling
+                function fixMathStyling() {
+                  var mathElements = document.querySelectorAll('.math-symbol mjx-container, .math-symbol .MathJax, #logo-math mjx-container, #logo-math .MathJax');
+                  mathElements.forEach(function(elem) {
+                    elem.style.webkitTextFillColor = '#c084fc';
+                    elem.style.color = '#c084fc';
+                    elem.style.background = 'none';
+                    elem.style.webkitBackgroundClip = 'initial';
+                    elem.style.opacity = '1';
+                    elem.style.visibility = 'visible';
+                  });
+                }
+                
+                // Apply immediately
+                setTimeout(fixMathStyling, 10);
+                
+                // Also apply after a short delay in case of timing issues
+                setTimeout(fixMathStyling, 100);
+                
+                // Set up a mutation observer to catch any dynamically added math elements
+                if (typeof MutationObserver !== 'undefined') {
+                  var observer = new MutationObserver(function(mutations) {
+                    mutations.forEach(function(mutation) {
+                      if (mutation.addedNodes.length > 0) {
+                        setTimeout(fixMathStyling, 10);
+                      }
+                    });
+                  });
+                  observer.observe(document.body, { childList: true, subtree: true });
                 }
               });
             }
@@ -76,7 +97,11 @@ header = Header(
                         cls='lucide lucide-wand-2'
                     ),
                     
-                    H1(Span('\\( \\nabla \\cdot \\) AI', id='logo-math'), style='display: inline-block; margin-right: 2rem;'),
+                    H1(
+                        Span('\\( \\nabla \\cdot \\)', id='logo-math', cls='math-symbol'), 
+                        Span(' AI', cls='logo-text'), 
+                        style='display: inline-block; margin-right: 2rem;'
+                    ),
                     H2(Span('DivergenceAI'), style='display: inline-block; margin-right: 1rem;'),
                     href='/',
                     cls='logo'
