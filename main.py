@@ -470,7 +470,7 @@ def home(session):
                         ),
                         Div(
                             H3('🏆 Industry Expertise'),
-                            P('Founded by PhD engineers from MIT and Stanford with 20+ years of simulation experience at Tesla, SpaceX, and Google.'),
+                            P('Founded by PhD engineers with expertise in partial differential equations and RF systems engineering. Deep technical foundations from UC Davis and Georgia Tech combined with proven experience scaling engineering teams and developing RF technologies at leading companies including Apple.'),
                             cls='trust-item'
                         ),
                         Div(
