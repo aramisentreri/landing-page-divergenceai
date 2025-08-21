@@ -164,12 +164,12 @@ def home(session):
                 Section(
                     Div(
                         Div(
-                            Div('AI copilot for EM Simulations', cls='hero-title'),
-                            P('Accelerate product design with AI agents — cut setup from days to minutes and go from CAD to insights faster than ever.', cls='hero-subtitle'),
+                            Div('Automate HFSS Workflows with AI', cls='hero-title'),
+                            P('With DivergenceAI, electromagnetic engineers can generate and execute simulation workflows across Ansys HFSS, allowing teams to ship designs faster than ever.', cls='hero-subtitle'),
                             Div(
-                                Div('⚡ 90% faster setup', cls='hero-benefit'),
-                                Div('🤖 Autonomous debugging', cls='hero-benefit'), 
-                                Div('💬 Natural language interface', cls='hero-benefit'),
+                                Div('🚀 Ship designs 10x faster', cls='hero-benefit'),
+                                Div('🔄 Parallel scenario exploration', cls='hero-benefit'), 
+                                Div('🎯 No HFSS migration needed', cls='hero-benefit'),
                                 cls='hero-benefits'
                             ),
                             Div(
@@ -230,26 +230,26 @@ def home(session):
                 cls='social-proof'
             ),
             Section(
-                H1('Why Traditional Simulation Tools Hold You Back'),
+                H1('Why HFSS Workflows Limit Engineering Velocity'),
                 Div(
                     Div(
-                        H2('Weeks to Set Up'),
-                        P('Setting up a single simulation can take 2-4 weeks. Your team wastes time on repetitive setup instead of innovation.'),
+                        H2('Manual Mesh Generation'),
+                        P('Engineers spend days tweaking mesh settings, material properties, and boundary conditions for each HFSS simulation—repetitive work that blocks innovation.'),
                         cls='card'
                     ),
                     Div(
-                        H2('Expert Required'),
-                        P('Only PhD-level experts can use existing tools effectively, creating bottlenecks and limiting your team\'s velocity.'),
+                        H2('One-at-a-Time Testing'),
+                        P('HFSS forces sequential scenario exploration. Testing design variations takes weeks when it should take hours—slowing time-to-market.'),
                         cls='card'
                     ),
                     Div(
-                        H2('Frequent Failures'),
-                        P('Simulations fail 40% of the time due to mesh issues or parameter errors, requiring manual debugging and restarts.'),
+                        H2('Simulation Expertise Bottleneck'),
+                        P('Only senior engineers can effectively set up complex HFSS models, creating dependencies and limiting team scalability.'),
                         cls='card'
                     ),
                     Div(
-                        H2('$100K+ Per License'),
-                        P('Commercial tools cost a fortune. Open source alternatives require even more specialized knowledge to set up.'),
+                        H2('Disconnected CAD-to-Results'),
+                        P('Manual CAD import, geometry cleanup, and post-processing creates gaps where errors multiply and insights get lost.'),
                         cls='card'
                     ),
                     cls='grid'
@@ -261,50 +261,50 @@ def home(session):
                 Div(
                     Div(
                         Div(
-                            H1('Traditional Process', cls='workflows-title-muted'),
+                            H1('Traditional HFSS Workflow', cls='workflows-title-muted'),
                             Div(
-                                    H2('Manual Model Prep'),
-                                    P('Import CAD files, manually simplify geometry, and create mesh. Often requires multiple iterations.'),
+                                    H2('CAD Import & Cleanup'),
+                                    P('Manually import geometry into HFSS, fix CAD issues, and simplify complex models for simulation readiness.'),
                                     cls='workflow-step'
                             ),
                             Div(
-                                    H2('Complex Setup'),
-                                    P('Define hundreds of parameters manually. Easy to make errors that cause simulation failures.'),
+                                    H2('Mesh Generation Setup'),
+                                    P('Define mesh density, lambda refinement, and convergence criteria. Requires expertise to balance accuracy vs. compute time.'),
                                     cls='workflow-step'
                             ),
                             Div(
-                                    H2('Wait and Hope'),
-                                    P('Submit job and wait hours or days. High chance of failure requiring restart from step 1.'),
+                                    H2('Boundary Conditions & Materials'),
+                                    P('Set radiation boundaries, perfect conductors, material properties, and excitation ports. Easy to misconfigure.'),
                                     cls='workflow-step'
                             ),
                             Div(
-                                    H2('Manual Analysis'),
-                                    P('Extract results using complex post-processing tools. Requires expertise to interpret.'),
+                                    H2('Solve & Debug'),
+                                    P('Submit HFSS solve and wait hours/days. When it fails (often), debug mesh, convergence, or setup issues manually.'),
                                     cls='workflow-step'
                             ),
                             Div(
-                                    H2('Repeat Everything'),
-                                    P('Want to test a design change? Start over from step 1. Total cycle time: weeks.'),
+                                    H2('Post-Process Results'),
+                                    P('Extract S-parameters, field plots, and performance metrics. Repeat entire process for each design variation.'),
                                     cls='workflow-step'
                             ),
                             cls='workflow-column'
                         ),
                         Div(
-                            H1('DivergenceAI Process', cls='workflows-title'),
+                            H1('AI-Automated HFSS Workflow', cls='workflows-title'),
                             Div(
                                 Div(
-                                    H2('Upload & Go'),
-                                    P('Drop your CAD file. AI automatically optimizes geometry, generates mesh, and sets all parameters. No expertise required.'),
+                                    H2('Intelligent CAD-to-HFSS'),
+                                    P('AI automatically imports, cleans, and optimizes your CAD geometry for HFSS. Generates production-ready mesh settings without expert tuning.'),
                                     cls='workflow-step'
                                 ),
                                 Div(
-                                    H2('Autonomous Execution'),
-                                    P('AI monitors simulation in real-time, automatically fixes common issues, and re-runs if needed. 90% success rate.'),
+                                    H2('Parallel Scenario Exploration'),
+                                    P('Test all design variations simultaneously across HFSS. Compare S-parameters, field patterns, and performance metrics instantly to find optimal configurations.'),
                                     cls='workflow-step'
                                 ),
                                 Div(
-                                    H2('Instant Insights'),
-                                    P('Ask questions in plain English: "What happens if I change the material?" Get visual answers and design recommendations immediately.'),
+                                    H2('Autonomous Solve Management'),
+                                    P('AI monitors HFSS jobs, detects convergence issues, and auto-adjusts settings. Get reliable results without manual debugging or restarts.'),
                                     cls='workflow-step'
                                 ),
                             ),
@@ -318,24 +318,24 @@ def home(session):
             ),
             Section(
                 Div(
-                    H2('Proven Results That Impact Your Bottom Line', cls='benefits-title'),
+                    H2('Scale HFSS Impact Without Growing Headcount', cls='benefits-title'),
                     Div(
                         Div(
-                            H3('90% Faster Setup Time'),
-                            P('Reduce simulation setup from 2-4 weeks to 2-3 days. Save 85% of engineering time previously spent on manual configuration and troubleshooting.'),
-                            Div('ROI: $50K+ saved annually per engineer', cls='roi-metric'),
+                            H3('Deploy AI Agents Across HFSS'),
+                            P('Automate your entire HFSS workflow end-to-end. From CAD import to S-parameter extraction—eliminate repetitive tasks and focus engineers on high-leverage design decisions.'),
+                            Div('Impact: 10x more design iterations per engineer', cls='roi-metric'),
                             cls='benefit-card'
                         ),
                         Div(
-                            H3('95% Success Rate'),
-                            P('Our AI monitoring prevents the 40% failure rate of traditional tools. Automatic debugging and re-runs ensure your simulations complete successfully.'),
-                            Div('ROI: 60% reduction in compute costs', cls='roi-metric'),
+                            H3('Parallel Scenario Exploration'),
+                            P('Test all design variations simultaneously across HFSS instances. Compare antenna performance, optimize matching networks, and uncover best configurations at scale.'),
+                            Div('Impact: Weeks of testing compressed into hours', cls='roi-metric'),
                             cls='benefit-card'
                         ),
                         Div(
-                            H3('5x Faster Iteration'),
-                            P('Natural language interface lets any team member explore design changes instantly. No PhD required to extract insights and make decisions.'),
-                            Div('ROI: 3x faster product development cycles', cls='roi-metric'),
+                            H3('No HFSS Migration Required'),
+                            P('Keep using Ansys HFSS with the workflows you trust. DivergenceAI enhances your existing toolstack—no need to retrain teams or change processes.'),
+                            Div('Impact: Zero migration risk, immediate value', cls='roi-metric'),
                             cls='benefit-card'
                         ),
                         cls='benefits-grid'
@@ -461,26 +461,26 @@ def home(session):
             ),
             Section(
                 Div(
-                    H2('Trusted by Engineering Teams Worldwide', cls='trust-title'),
+                    H2('Built for Enterprise HFSS Workflows', cls='trust-title'),
                     Div(
                         Div(
-                            H3('🔒 Enterprise Security'),
-                            P('SOC 2 Type II compliant with end-to-end encryption. Your designs and data remain completely private and secure.'),
+                            H3('🔒 IP Protection & Data Security'),
+                            P('Enterprise-grade encryption and isolated compute ensure your antenna designs and RF data never leave your security perimeter.'),
                             cls='trust-item'
                         ),
                         Div(
-                            H3('🏆 Industry Expertise'),
-                            P('Founded by PhD engineers with expertise in partial differential equations and RF systems engineering. Deep technical foundations from UC Davis and Georgia Tech combined with proven experience scaling engineering teams and developing RF technologies at leading companies including Apple.'),
+                            H3('🏆 RF Engineering Expertise'),
+                            P('Founded by electromagnetics PhDs with expertise in partial differential equations and RF systems engineering. Deep technical foundations from UC Davis and Georgia Tech combined with proven experience scaling engineering teams and developing RF technologies at leading companies including Apple.'),
                             cls='trust-item'
                         ),
                         Div(
-                            H3('⚡ 99.9% Uptime'),
-                            P('Cloud infrastructure built on AWS with enterprise-grade reliability. 24/7 monitoring ensures your simulations never stop.'),
+                            H3('⚡ HFSS-Native Integration'),
+                            P('Direct integration with Ansys HFSS APIs and licensing. No reverse engineering—we work with Ansys-approved methods and maintain compatibility.'),
                             cls='trust-item'
                         ),
                         Div(
-                            H3('🎯 Proven Results'),
-                            P('500+ engineering teams have reduced their simulation time by 90%. Join companies like Boeing, Ford, and emerging startups.'),
+                            H3('🎯 Validated by RF Teams'),
+                            P('RF engineers at aerospace, automotive, and telecom companies have validated our AI matches senior engineer accuracy across antenna and circuit designs.'),
                             cls='trust-item'
                         ),
                         cls='trust-grid'
