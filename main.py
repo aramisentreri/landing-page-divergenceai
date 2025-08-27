@@ -107,11 +107,11 @@ header = Header(
                     cls='logo'
                 ),
                 Nav(
-                    # A('Features', href='#features'),
+                    A('How it Works', href='#workflows'),
                     A('Benefits', href='#benefits'),
+                    A('See Demo', href='#product-demo'),
                     A('Pricing', href='#pricing'),
-                    A('Blog', href='/blog', cls='active'),
-                    A(Button('Join the beta', cls='btn btn-primary'), href='#pricing')
+                    A(Button('Start Free Trial', cls='btn btn-primary'), href='https://dashboard.app.divergenceai.xyz')
                 ),
                 cls='container'
             )
@@ -140,25 +140,19 @@ def home(session):
     # Track homepage view server-side
     posthog.capture('home_page_viewed', distinct_id=user_id)
 
-    # --- YouTube Video Setup ---
-    youtube_video_id = "6Jn3-z7b1Xw"#"TJTgeH5fO7o" # Replace with your actual video ID, e.g., 'dQw4w9WgXcQ'
-    # Common parameters for a seamless hero video:
-    # autoplay=1: Start playing automatically (requires mute=1 in most browsers)
-    # mute=1: Start muted
-    # loop=1&playlist=VIDEO_ID: Loop the video (playlist trick for single videos)
-    # controls=0: Hide player controls
-    # modestbranding=1: Reduce YouTube logo (optional)
-    # showinfo=0: Hide video title and uploader (deprecated, but sometimes works)
-    # autohide=1: Autohide controls (if controls were visible)
-    youtube_embed_url = f"https://www.youtube.com/embed/{youtube_video_id}?autoplay=1&mute=1&loop=1&playlist={youtube_video_id}&controls=0&modestbranding=1&showinfo=0&autohide=1&start=33&end=166"
+    # --- YouTube Video Setup for Modal ---
+    # youtube_video_id = "6Jn3-z7b1Xw"
+    youtube_video_id = "iBEnF-fQWZw"
+    # Modal video parameters - with controls for user interaction
+    youtube_embed_url = f"https://www.youtube.com/embed/{youtube_video_id}?controls=1&modestbranding=1"#&start=33&end=166"
 
-    video_iframe = Iframe(
+    demo_video_iframe = Iframe(
         src=youtube_embed_url,
-        title="DivergenceAI Product Showcase", # Descriptive title for accessibility
+        title="DivergenceAI Product Demo",
         frameborder="0",
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share",
-        allowfullscreen=True, # Note: fasthtml handles boolean attributes correctly
-        cls="hero-youtube-iframe" # Add a class for easier CSS targeting
+        allowfullscreen=True,
+        cls="demo-modal-iframe"
     )
     # --- End YouTube Video Setup ---
 
@@ -169,61 +163,94 @@ def home(session):
             header,
             Main(
                 Section(
-                    Canvas(id='emWaveCanvas'), # This is your existing canvas
-                    Div( # This is the existing Div(cls='container')
-                        # We'll make this container a flex parent for side-by-side layout
-                        Div( # This is the existing Div(cls='hero-content')
-                            H1(Span('AI-powered Engineering Simulations'), cls='hero-h1'),
-                            P('From CAD to insights in seconds. Streamline your workflow with AI—faster design cycles, smarter decisions, and seamless engineering.'),
-                            # Button('Join the beta', onclick='showModal()', cls='waitlist-btn'),
-                            A(Button('Join the beta', cls='btn btn-primary'), href='#pricing'),
-                            Div(id='overlay', onclick='closeModal()', cls='overlay'),
-                            Div(
-                                Button('X', onclick='closeModal()', cls='close-btn'),
-                                H3('Join the beta'),
-                                Label('Email:', fr='email'), # 'for' attribute is 'fr' in fasthtml
-                                Input(type='hidden', name='access_key', id='access_key', value='af5f23cb-d08f-4578-b508-8ae2e3edd453'),
-                                Input(type='email', id='email', required='', placeholder='Enter your email'),
-                                Label('What would you like Divergence AI to do for you?', fr='request'),
-                                Textarea(id='request', rows='4', required='', placeholder="Imagine this is DivergenceAI's input box, what would you ask it to do?"),
-                                Button('Submit', onclick='submitForm()', cls='btn btn-contact'),
-                                id='modal',
-                                cls='modal'
-                            ),
-                            Div(cls='result', id='heroFormResult'),
-                            cls='hero-content' # This div will be one flex item (text content)
-                        ),
-                        # --- New Div to wrap the video iframe ---
+                    Div(
                         Div(
-                            video_iframe,
-                            cls='hero-video-wrapper' # This div will be the other flex item (video)
+                            Div('Automate HFSS Workflows with AI', cls='hero-title'),
+                            P('With DivergenceAI, RF and Antenna engineers can generate and execute simulation workflows across Ansys HFSS, allowing teams to ship designs faster than ever.', cls='hero-subtitle'),
+                            Div(
+                                Div('🚀 Ship designs 10x faster', cls='hero-benefit'),
+                                Div('🔄 Rapid Design Insight & Exploration', cls='hero-benefit'), 
+                                Div('🎯 No HFSS migration needed', cls='hero-benefit'),
+                                cls='hero-benefits'
+                            ),
+                            Div(
+                                A(Button('Start Free Trial', cls='btn btn-primary btn-large'), href='https://dashboard.app.divergenceai.xyz', onclick='simpleEventCapture("hero_cta_clicked")'),
+                                A(Button('Watch Demo', cls='btn btn-secondary btn-large'), href='#', onclick='showDemoModal()'),
+                                cls='hero-cta-buttons'
+                            ),
+                            cls='hero-content'
                         ),
-                        # --- End New Div ---
-                        cls='container hero-layout-container' # Added 'hero-layout-container' for flex styling
+                        cls='container'
+                    ),
+                    
+                    # Demo Video Modal
+                    Div(id='demoOverlay', onclick='closeDemoModal()', cls='overlay demo-overlay'),
+                    Div(
+                        Button('X', onclick='closeDemoModal()', cls='close-btn'),
+                        demo_video_iframe,
+                        id='demoModal',
+                        cls='modal demo-modal'
                     ),
                 cls='hero'
             ),
+            # Section(
+            #     Div(
+            #         P('Trusted by engineers at leading companies', cls='social-proof-subtitle'),
+            #         Div(
+            #             Div('🏢 Fortune 500', cls='customer-logo'),
+            #             Div('🎓 Universities', cls='customer-logo'),
+            #             Div('🚀 Startups', cls='customer-logo'),
+            #             Div('🔬 Research Labs', cls='customer-logo'),
+            #             cls='customer-logos'
+            #         ),
+            #         Div(
+            #             Div(
+            #                 P('"DivergenceAI reduced our simulation setup time from 3 weeks to 2 days. The AI debugging feature alone saved us countless hours of troubleshooting."'),
+            #                 Div(
+            #                     Strong('Dr. Sarah Chen'),
+            #                     Br(),
+            #                     Span('Senior RF Engineer, TechCorp', cls='testimonial-company'),
+            #                     cls='testimonial-author'
+            #                 ),
+            #                 cls='testimonial-card'
+            #             ),
+            #             Div(
+            #                 P('"The natural language interface makes complex simulations accessible to our entire team, not just the experts. Game-changing for our workflow."'),
+            #                 Div(
+            #                     Strong('Mike Rodriguez'),
+            #                     Br(),
+            #                     Span('Engineering Manager, InnovateLab', cls='testimonial-company'),
+            #                     cls='testimonial-author'
+            #                 ),
+            #                 cls='testimonial-card'
+            #             ),
+            #             cls='testimonials-grid'
+            #         ),
+            #         cls='container'
+            #     ),
+            #     cls='social-proof'
+            # ),
             Section(
-                H1('The Current Simulation Landscape'),
+                H1('Why HFSS Workflows Slow Engineers Down'),
                 Div(
                     Div(
-                        H2('Slow set up time'),
-                        P('The flow from idea to simulation takes weeks if not months.'),
+                        H2('Manual Mesh Generation'),
+                        P('Engineers spend days tweaking mesh settings, material properties, and boundary conditions for each HFSS simulation—repetitive work that blocks innovation.'),
                         cls='card'
                     ),
                     Div(
-                        H2('Complex'),
-                        P('Requires deep technical expertise, limiting accessibility for many users.'),
+                        H2('One-at-a-Time Testing'),
+                        P('HFSS forces sequential scenario exploration. Testing design variations takes weeks when it should take hours—slowing time-to-market.'),
                         cls='card'
                     ),
                     Div(
-                        H2('Time-consuming'),
-                        P('Slow iteration process hampers rapid prototyping and innovation.'),
+                        H2('Simulation Expertise Bottleneck'),
+                        P('Only senior engineers can effectively set up complex HFSS models, creating dependencies and limiting team scalability.'),
                         cls='card'
                     ),
                     Div(
-                        H2('Expensive'),
-                        P('Inaccessible to non-established companies. Open source tools are even more complex.'),
+                        H2('Disconnected CAD-to-Results'),
+                        P('Manual CAD import, geometry cleanup, and post-processing creates gaps where errors multiply and insights get lost.'),
                         cls='card'
                     ),
                     cls='grid'
@@ -234,106 +261,82 @@ def home(session):
                 Canvas(id='neuralNetworkCanvas'),
                 Div(
                     Div(
-                        H1('Traditional Simulation Workflow', cls='workflows-title-muted'),
                         Div(
-                            Div('1', cls='step-number'),
+                            H1('Traditional HFSS Workflow', cls='workflows-title-muted'),
                             Div(
-                                    H2('Model intake and preparation'),
-                                    P('Import 3D CAD file, simplify geometry and create mesh for discretization.'),
-                                    cls='step-content'
-                                ),
-                                cls='step'
+                                    H2('CAD Import & Cleanup'),
+                                    P('Manually import geometry into HFSS, fix CAD issues, and simplify complex models for simulation readiness.'),
+                                    cls='workflow-step'
                             ),
                             Div(
-                                Div('2', cls='step-number'),
-                                Div(
-                                    H2('Simulation Setup'),
-                                    P('Define constraints, material properties, boundary conditions and solver parameters.'),
-                                    cls='step-content'
-                                ),
-                                cls='step'
+                                    H2('Mesh Generation Setup'),
+                                    P('Define mesh parameters, and convergence criteria. Requires expertise to balance accuracy vs. compute time.'),
+                                    cls='workflow-step'
                             ),
                             Div(
-                                Div('3', cls='step-number'),
-                                Div(
-                                    H2('Computation'),
-                                    P('Run simulations, taking hours or days depending on complexity.'),
-                                    cls='step-content'
-                                ),
-                                cls='step'
+                                    H2('Boundary Conditions & Materials'),
+                                    P('Set radiation boundaries, material properties, and excitation ports. Slow and easy to misconfigure.'),
+                                    cls='workflow-step'
                             ),
                             Div(
-                                Div('4', cls='step-number'),
-                                Div(
-                                    H2('Analysis'),
-                                    P('Extract insights like field distributions or impedance values.'),
-                                    cls='step-content'
-                                ),
-                                cls='step'
+                                    H2('Solve & Debug'),
+                                    P('Submit HFSS analyze and wait hours/days withuot supervision. When it fails (often), debug mesh, convergence, or setup issues manually.'),
+                                    cls='workflow-step'
                             ),
                             Div(
-                                Div('5', cls='step-number'),
-                                Div(
-                                    H2('Scenario Exploration'),
-                                    P('Vary conditions to evaluate performance across design spaces.'),
-                                    cls='step-content'
-                                ),
-                                cls='step'
+                                    H2('Post-Process Results'),
+                                    P('Extract S-parameters, field plots, and performance metrics. Repeat entire process for each design variation.'),
+                                    cls='workflow-step'
                             ),
                             cls='workflow-column'
                         ),
                         Div(
-                            H1('AI improved Workflow', cls='workflows-title'),
+                            H1('AI-Automated HFSS Workflow', cls='workflows-title'),
                             Div(
-                                Div('1', cls='step-number'),
                                 Div(
-                                    H2('Automatic Preprocessing and Smart Meshing'),
-                                    P('Onboard geometry, simplify, iterate meshing, set up boundary conditions and simulation parameters.'),
-                                    cls='step-content'
+                                    H2('Intelligent CAD-to-HFSS'),
+                                    P('AI automatically imports, cleans, and optimizes your CAD geometry for HFSS. Generates simulation-ready mesh settings without expert tuning.'),
+                                    cls='workflow-step'
                                 ),
-                                cls='step'
-                            ),
-                            Div(
-                                Div('2', cls='step-number'),
                                 Div(
-                                    H2('Run Simulations with Autonomous Monitoring'),
-                                    P('Simulations often fail. Our monitoring agent detects issues in real-time, attempts to debug, and re-runs automatically to minimize downtime.'),
-                                    cls='step-content'
+                                    H2('Autonomous Simulation Management'),
+                                    P('AI monitors HFSS jobs, detects convergence issues, and auto-adjusts settings. Get reliable results without manual debugging or restarts.'),
+                                    cls='workflow-step'
                                 ),
-                                cls='step'
-                            ),
-                            Div(
-                                Div('3', cls='step-number'),
                                 Div(
-                                    H2('AI-Powered Postprocessing & Insights'),
-                                    P('Intuitive natural language interface allows users to interact with simulation results. The AI generates key visualizations, highlights insights, and enables easy sharing - making high-fidelity simulations more accessible to engineers.'),
-                                    cls='step-content'
+                                    H2('Post-Processing & Scenario Exploration'),
+                                    P('Automatically extract key insights from your HFSS simulations in minutes instead of hours — S-parameters, field data, and performance metrics. Compare design scenarios with natural language requests and make engineering decisions faster.'),
+                                    cls='workflow-step'
                                 ),
-                                    cls='step'
                             ),
                         cls='workflow-column'
                         ),
                     cls='workflow-container'
                     ),
-                cls='workflows'
+                cls='workflows',
+                id='workflows'
+                ),
             ),
             Section(
                 Div(
-                    H2('Key Benefits', cls='benefits-title'),
+                    H2('Scale HFSS Impact Without Increasing Headcount', cls='benefits-title'),
                     Div(
                         Div(
-                            H3('AI-Powered Postprocessing & Insights'),
-                            P('Intuitive natural language interface allows users to interact with simulation results. The AI generates key visualizations, highlights insights, and enables easy sharing - making high-fidelity simulations more accessible to engineers.'),
+                            H3('Deploy AI Agents Across HFSS'),
+                            P('Automate repetitive tasks across your HFSS workflow—from CAD to insights report—so engineers can focus on high-value design decisions.'),
+                            Div('Impact: Accelerate post-processing and design iteration', cls='roi-metric'),
                             cls='benefit-card'
                         ),
                         Div(
-                            H3('Run Simulations with Autonomous Monitoring'),
-                            P('Simulations often fail. Our monitoring agent detects issues in real-time, attempts to debug, and re-runs automatically to minimize downtime.'),
+                            H3('Parallel Scenario Exploration'),
+                            P('Run multiple design variations simultaneously across HFSS instances. Compare antenna performance and optimize matching networks more efficiently.'),
+                            Div('Impact: Faster evaluation of design alternatives', cls='roi-metric'),
                             cls='benefit-card'
                         ),
                         Div(
-                            H3('Automatic Preprocessing and Smart Meshing'),
-                            P('Onboard geometry, simplify, iterate meshing, set up boundary conditions and simulation parameters.'),
+                            H3('No HFSS Migration Required'),
+                            P('Enhance your existing HFSS workflows with AI automation—no retraining or process changes required.'),
+                            Div('Impact: Immediate value with zero migration risk', cls='roi-metric'),
                             cls='benefit-card'
                         ),
                         cls='benefits-grid'
@@ -342,53 +345,99 @@ def home(session):
                 ),
                 id='benefits'
             ),
+
+            Section(
+                Div(
+                    H2('See DivergenceAI in Action', cls='product-demo-title'),
+                    P('From CAD upload to insights in minutes—watch how our platform transforms simulation workflows.', cls='product-demo-subtitle'),
+                    Div(
+                        Div(
+                            H3('Upload & AI-Driven Geometry'),
+                            P('Create HFSS geometries instantly with natural language requests. Just describe the shapes you need, and our AI generates the corresponding geometric primitives for you—no manual CAD work required.'),
+                            Img(src='media/pre_processing_geometry.png', alt='CAD Generation', cls='demo-screenshot', onclick='showImageModal("media/pre_processing_geometry.png", "CAD Upload Interface")'),
+                            cls='demo-step'
+                        ),
+                        Div(
+                            H3('Simulation Control & Monitoring'),
+                            P('Run simulations and parameter sweeps directly through natural language commands. Track progress in real time with live status updates, and let AI handle common issues before they cause failures. Schedule post-simulation actions like email notifications, S-parameter extraction, and field plot generation—so results are ready the moment your run finishes.'),
+                            Img(src='media/hfss_app_sim_monitoring.png', alt='Simulation Agent', cls='demo-screenshot', onclick='showImageModal("media/hfss_app_sim_monitoring.png", "Simulation Dashboard")'),
+                            cls='demo-step'
+                        ),
+                        Div(
+                        H3('AI-Powered Results Visualization'),
+                        P('Quickly explore your simulation results with natural language. Generate S-parameter plots, Smith charts, or far-field radiation patterns on demand—without writing a single script.'),
+                        Img(src='media/app_hfss_variations_s11.png', alt='Simulation Results Visualization', cls='demo-screenshot', onclick='showImageModal("media/app_hfss_variations_s11.png", "Simulation Results Visualization")'),
+                        cls='demo-step'
+                    ),
+                    Div(
+                        H3('New: Automated Antenna Array Design'),
+                        P('Automated beam steering and sidelobe control, with automatic data capture, six tapering algorithms (Chebyshev, Taylor, cosine, and more), and instant performance validation tools.'),
+                        Img(src='media/app_hfss_beam_steering.png', alt='Array Design', cls='demo-screenshot', onclick='showImageModal("media/app_hfss_beam_steering.png", "Array Design Automation")'),
+                        cls='demo-step'
+                    ),
+                        cls='demo-steps-grid'
+                    ),
+                    cls='container'
+                ),
+                cls='product-demo',
+                id='product-demo'
+            ),
             Section(
                 Div(
                     H2('Pricing Plans', cls='pricing-title'),
-                    P('Choose the plan that fits your stage—help shape the future or scale with confidence.', cls='pricing-subtitle'),
+                    P('Choose the plan that fits your workflow. Start with a trial or contact us for enterprise options.', cls='pricing-subtitle'),
                     Div(
                         Div(
-                            H3('Community Tier', cls='tier-title'),
-                            Div('$0', cls='tier-price'),
+                            H3('Professional', cls='tier-title'),
+                            Div('$99', cls='tier-price'),
                             P('per month', cls='tier-period'),
                             Ul(
-                                Li('Full access to core simulation assistant tools'),
-                                Li('Community support (Slack)'),
-                                Li('Design metadata may be used to improve models'),
+                                Li('Access to HFSS Copilot core features'),
+                                Li('Automated post-processing (plotting, reporting, beam steering, sidelobe control, etc.)'),
+                                Li('Unlimited projects & saved configurations'),
+                                Li('Email support & setup tutorials'),
+                                Li('Export results for further analysis'),
                                 cls='tier-features'
                             ),
                             P(
-                                'This plan is free during the beta period. In exchange, we collect anonymized metadata and usage to help us improve the platform. Ideal for individuals, students, and early adopters shaping the future of simulation tools.',
+                                'Best for individual engineers and small teams who want to speed up antenna array workflows and reduce manual post-processing time.',
                                 cls='tier-description'
                             ),
-                            P('🚀 Early access badge: Help us build faster with your feedback.', cls='tier-badge'),
-                            A(Button('Get Started Free', cls='tier-btn tier-btn-free'), href='https://dashboard.app.divergenceai.xyz', onclick='simpleEventCapture("community_tier_clicked")'), 
-                            cls='pricing-tier'
+                            Div(
+                                P('💼 Great for RF engineers and consultants.', cls='tier-badge'),
+                                A(Button('Start Pro Trial', cls='tier-btn tier-btn-pro'), href='https://dashboard.app.divergenceai.xyz', onclick='simpleEventCapture("pro_tier_clicked")'),
+                                cls='tier-footer'
+                            ),
+                            cls='pricing-tier professional-tier'
                         ),
                         Div(
-                            H3('Enterprise Tier', cls='tier-title'),
-                            Div('Contact Sales', cls='tier-price-contact'),
-                            P('custom pricing', cls='tier-period'),
+                            H3('Enterprise', cls='tier-title'),
+                            Div('Custom', cls='tier-price-contact'),
+                            P('pricing', cls='tier-period'),
                             Ul(
-                                Li('All core features'),
+                                Li('Everything in Professional'),
+                                Li('Private deployments or on-premises integration'),
                                 Li('Enhanced data isolation & encryption'),
-                                Li('Usage controls & private deployments'),
-                                Li('Priority support & feature requests'),
-                                Li('No data used for model training'),
+                                Li('Custom workflows and automation features'),
+                                Li('Priority support & roadmap input'),
                                 cls='tier-features'
                             ),
                             P(
-                                'Built for companies with strict security and privacy needs. Includes full control over data, private deployments, and white-glove onboarding. Your data stays private—always.',
+                                'For companies with strict security requirements or larger teams. Includes private deployment options, enterprise data controls, and direct support.',
                                 cls='tier-description'
                             ),
-                            P('🛡️ We’re early—Enterprise pricing is flexible and based on your scale.', cls='tier-badge'),
-                            Button('Contact Sales', onclick='showContactModal()', cls='tier-btn tier-btn-enterprise'),
+                            Div(
+                                P("🛡️ Flexible pricing based on your team’s scale and security needs.", cls='tier-badge'),
+                                Button('Contact Sales', onclick='showContactModal()', cls='tier-btn tier-btn-enterprise'),
+                                cls='tier-footer'
+                            ),
                             cls='pricing-tier enterprise-tier'
                         ),
                         cls='pricing-grid'
                     ),
                     cls='container'
                 ),
+
 
                 # Contact Sales Modal
                 Div(id='contactOverlay', onclick='closeContactModal()', cls='overlay'),
@@ -416,38 +465,75 @@ def home(session):
                     cls='modal'
                 ),
                 Div(cls='result', id='contactFormResult'),
+                
+                # Image Modal for expanded view
+                Div(id='imageOverlay', onclick='closeImageModal()', cls='overlay image-overlay'),
+                Div(
+                    Button('X', onclick='closeImageModal()', cls='close-btn'),
+                    Img(id='expandedImage', cls='expanded-image'),
+                    P(id='imageCaption', cls='image-caption'),
+                    id='imageModal',
+                    cls='modal image-modal'
+                ),
                 id='pricing'
             ),
             Section(
                 Div(
-                    H2('Ready to Transform Your Design Process?'),
-                    P('Use the public beta of DivergenceAI today, and help shape the future of simulation.'),
-                    
-                    # Primary CTA: Try Beta Now
-                    A(Button('Try the Beta Now', cls='btn btn-contact'), href='https://dashboard.app.divergenceai.xyz'),  # Replace with actual beta link
-
-                    # Spacer between sections
-                    Div(cls='cta-spacer'),
-                    
-                    # Optional Feedback CTA
-                    P('Want to tell us what you’d like DivergenceAI to do for you?'),
-                    Button('Give Feedback', onclick='showModal()', cls='waitlist-btn'),  # Reuse modal for feedback input
-
-                    # Feedback Modal (formerly waitlist)
-                    Div(id='overlay', onclick='closeModal()', cls='overlay'),
+                    H2('Built for Enterprise HFSS Workflows', cls='trust-title'),
                     Div(
-                        Button('X', onclick='closeModal()', cls='close-btn'),
-                        H3('What should DivergenceAI do for you?'),
-                        Label('Email:', fr='email'),
-                        Input(type='hidden', name='access_key', id='access_key', value='af5f23cb-d08f-4578-b508-8ae2e3edd453'),
-                        Input(type='email', id='email', required='', placeholder='Enter your email'),
-                        Label('Imagine this is DivergenceAI’s input box. What would you ask it to do?', fr='request'),
-                        Textarea(id='request', rows='4', required='', placeholder="What would you want DivergenceAI to simulate or analyze for you?"),
-                        Button('Submit', onclick='submitForm()', cls='btn btn-contact'),
-                        id='modal',
-                        cls='modal'
+                        Div(
+                            H3('🔒 IP Protection & Data Security'),
+                            P('Runs inside your secure environment, with support for enterprise encryption and isolated compute.'),
+                            cls='trust-item'
+                        ),
+                        Div(
+                            H3('⚡ HFSS-Native Integration'),
+                            P('Uses official Ansys HFSS APIs and licensing to ensure compatibility without hacks or reverse engineering.'),
+                            cls='trust-item'
+                        ),
+                        Div(
+                            H3('🎯 Validated by RF Teams'),
+                            P('Developed and tested in collaboration with RF engineers across aerospace, telecom, and advanced hardware companies.'),
+                            cls='trust-item'
+                        ),
+                        Div(
+                            H3('🏆 RF Engineering Expertise'),
+                            P('Founded by PhDs in electromagnetics with expertise in partial differential equations and RF systems engineering, with deep technical foundations from UC Davis and Georgia Tech, and industry experience developing RF technologies and scaling engineering teams at companies including Apple.'),
+                            cls='trust-item'
+                        ),
+                        cls='trust-grid'
                     ),
-                    Div(cls='result', id='ctaFormResult'),
+                    cls='container'
+                ),
+                cls='trust-section'
+            ),
+            Section(
+                Div(
+                    H2('Ready to Accelerate Your Simulations?'),
+                    P('Join engineering teams saving 90% of their setup time with AI-powered simulation tools.'),
+                    
+                    Div(
+                        Div(
+                            H3('Start Your Free Trial'),
+                            P('Experience the power of AI simulation with unlimited access for 14 days.'),
+                            A(Button('Start Free Trial', cls='btn btn-primary btn-large'), href='https://dashboard.app.divergenceai.xyz'),
+                            cls='cta-option'
+                        ),
+                        Div(
+                            H3('Talk to Our Team'),
+                            P('Get a personalized demo and discuss your specific simulation needs.'),
+                            Button('Schedule Demo', onclick='showContactModal()', cls='btn btn-secondary btn-large'),
+                            cls='cta-option'
+                        ),
+                        cls='cta-options'
+                    ),
+
+                    Div(
+                        P('✅ No credit card required'),
+                        P('✅ Full feature access during trial'),
+                        P('✅ Setup support included'),
+                        cls='cta-benefits'
+                    ),
 
                     cls='container',
                 ),
@@ -455,7 +541,7 @@ def home(session):
                 id='cta')
             ),
         footer,
-        Script(src='animations.js')
+        Script(src='app.js')
     ),
     lang='en'
 )
@@ -538,7 +624,7 @@ def blog(session):
             ),
         ),
         footer,
-        Script(src='animations.js')
+        Script(src='app.js')
     ),
 )
 
