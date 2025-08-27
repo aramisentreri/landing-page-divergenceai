@@ -141,9 +141,10 @@ def home(session):
     posthog.capture('home_page_viewed', distinct_id=user_id)
 
     # --- YouTube Video Setup for Modal ---
-    youtube_video_id = "6Jn3-z7b1Xw"
+    # youtube_video_id = "6Jn3-z7b1Xw"
+    youtube_video_id = "iBEnF-fQWZw"
     # Modal video parameters - with controls for user interaction
-    youtube_embed_url = f"https://www.youtube.com/embed/{youtube_video_id}?controls=1&modestbranding=1&start=33&end=166"
+    youtube_embed_url = f"https://www.youtube.com/embed/{youtube_video_id}?controls=1&modestbranding=1"#&start=33&end=166"
 
     demo_video_iframe = Iframe(
         src=youtube_embed_url,
