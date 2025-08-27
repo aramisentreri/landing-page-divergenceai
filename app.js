@@ -250,6 +250,24 @@ function simpleEventCapture(eventName) {
     Analytics.captureEvent(eventName);
 }
 
+function showImageModal(imageSrc, imageAlt) {
+    const expandedImage = document.getElementById('expandedImage');
+    const imageCaption = document.getElementById('imageCaption');
+    
+    if (expandedImage && imageCaption) {
+        expandedImage.src = imageSrc;
+        expandedImage.alt = imageAlt;
+        imageCaption.textContent = imageAlt;
+        
+        ModalManager.show('imageModal', 'imageOverlay');
+        Analytics.captureEvent('demo_image_expanded', { image: imageSrc });
+    }
+}
+
+function closeImageModal() {
+    ModalManager.hide('imageModal', 'imageOverlay');
+}
+
 /**
  * APPLICATION INITIALIZATION
  */
@@ -293,6 +311,12 @@ class App {
                 const contactModal = document.getElementById('contactModal');
                 if (contactModal && contactModal.style.display === 'block') {
                     closeContactModal();
+                }
+                
+                // Close image modal if open
+                const imageModal = document.getElementById('imageModal');
+                if (imageModal && imageModal.style.display === 'block') {
+                    closeImageModal();
                 }
             }
         });

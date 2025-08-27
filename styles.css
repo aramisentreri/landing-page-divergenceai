@@ -771,6 +771,72 @@
     margin-top: var(--spacing-md);
   }
 
+  .demo-screenshot {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    border-radius: 8px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    margin-top: var(--spacing-md);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease;
+  }
+
+  .demo-screenshot {
+    cursor: pointer;
+  }
+
+  .demo-screenshot:hover {
+    transform: scale(1.05);
+  }
+
+  /* Image Modal Styles */
+  .image-modal {
+    width: 95vw;
+    max-width: 1200px;
+    height: auto;
+    max-height: 90vh;
+    padding: 1rem;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: transparent;
+    z-index: 1003;
+  }
+
+  .image-modal[style*="block"] {
+    display: flex !important;
+  }
+
+  .expanded-image {
+    width: 100%;
+    height: auto;
+    max-height: 80vh;
+    object-fit: contain;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+  }
+
+  .image-caption {
+    color: var(--color-text);
+    font-size: var(--font-size-lg);
+    margin: 0;
+    text-align: center;
+  }
+
+  .image-overlay {
+    z-index: 1002;
+    background: rgba(0, 0, 0, 0.9) !important;
+  }
+
+  .image-modal .close-btn {
+    align-self: flex-end;
+    margin-bottom: 0.5rem;
+    flex-shrink: 0;
+  }
+
   @media (max-width: 768px) {
     .demo-steps-grid {
       grid-template-columns: 1fr;
