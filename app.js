@@ -7,6 +7,8 @@
 class AnimationManager {
     constructor() {
         this.animations = new Map();
+        this.animationId = null;
+        this.isPaused = false;
     }
 
     setupCanvas(canvas) {
@@ -24,14 +26,27 @@ class AnimationManager {
 
         const ctx = canvas.getContext('2d');
         const { width, height } = this.setupCanvas(canvas);
-        const neurons = this.generateNeurons(width, height, 20);
+        
+        // Adjust particle count based on screen size for better mobile performance
+        const isMobile = window.innerWidth <= 768;
+        const particleCount = isMobile ? 12 : 20;
+        const neurons = this.generateNeurons(width, height, particleCount);
 
-        const animate = () => {
-            this.drawNeuralNetwork(ctx, width, height, neurons);
-            requestAnimationFrame(animate);
+        let lastTime = 0;
+        const targetFPS = isMobile ? 30 : 60; // Lower FPS on mobile for better performance
+        const frameInterval = 1000 / targetFPS;
+
+        const animate = (currentTime) => {
+            if (!this.isPaused) {
+                if (currentTime - lastTime >= frameInterval) {
+                    this.drawNeuralNetwork(ctx, width, height, neurons, isMobile);
+                    lastTime = currentTime;
+                }
+            }
+            this.animationId = requestAnimationFrame(animate);
         };
 
-        animate();
+        animate(0);
     }
 
     generateNeurons(width, height, count) {
@@ -48,7 +63,7 @@ class AnimationManager {
         return neurons;
     }
 
-    drawNeuralNetwork(ctx, width, height, neurons) {
+    drawNeuralNetwork(ctx, width, height, neurons, isMobile = false) {
         ctx.clearRect(0, 0, width, height);
 
         // Update neuron positions
@@ -61,19 +76,21 @@ class AnimationManager {
             if (neuron.y < 0 || neuron.y > height) neuron.vy *= -1;
         });
 
-        // Draw connections
+        // Draw connections with reduced distance on mobile for better performance
+        const maxDistance = isMobile ? 80 : 100;
         for (let i = 0; i < neurons.length; i++) {
             for (let j = i + 1; j < neurons.length; j++) {
                 const dx = neurons[i].x - neurons[j].x;
                 const dy = neurons[i].y - neurons[j].y;
                 const distance = Math.sqrt(dx * dx + dy * dy);
 
-                if (distance < 100) {
+                if (distance < maxDistance) {
                     ctx.beginPath();
                     ctx.moveTo(neurons[i].x, neurons[i].y);
                     ctx.lineTo(neurons[j].x, neurons[j].y);
-                    const opacity = (100 - distance) / 100;
-                    ctx.strokeStyle = `rgba(0, 229, 255, ${opacity * 0.2})`;
+                    const opacity = (maxDistance - distance) / maxDistance;
+                    const alpha = isMobile ? opacity * 0.15 : opacity * 0.2; // Slightly more transparent on mobile
+                    ctx.strokeStyle = `rgba(0, 229, 255, ${alpha})`;
                     ctx.stroke();
                 }
             }
@@ -86,6 +103,14 @@ class AnimationManager {
             ctx.fillStyle = '#00E5FF';
             ctx.fill();
         });
+    }
+
+    pauseAnimations() {
+        this.isPaused = true;
+    }
+
+    resumeAnimations() {
+        this.isPaused = false;
     }
 }
 
@@ -268,6 +293,22 @@ function closeImageModal() {
     ModalManager.hide('imageModal', 'imageOverlay');
 }
 
+function toggleMobileMenu() {
+    const hamburger = document.querySelector('.hamburger-menu');
+    const navMenu = document.getElementById('navMenu');
+    
+    hamburger.classList.toggle('active');
+    navMenu.classList.toggle('active');
+}
+
+function closeMobileMenu() {
+    const hamburger = document.querySelector('.hamburger-menu');
+    const navMenu = document.getElementById('navMenu');
+    
+    hamburger.classList.remove('active');
+    navMenu.classList.remove('active');
+}
+
 /**
  * APPLICATION INITIALIZATION
  */
@@ -293,14 +334,43 @@ class App {
         // Enable smooth scrolling for anchor links
         Navigation.enableSmoothScrolling();
         
+        // Handle mobile menu link clicks
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                closeMobileMenu();
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (event) => {
+            const hamburger = document.querySelector('.hamburger-menu');
+            const navMenu = document.getElementById('navMenu');
+            
+            if (!hamburger.contains(event.target) && !navMenu.contains(event.target)) {
+                closeMobileMenu();
+            }
+        });
+        
         // Handle window resize for responsive canvas
         window.addEventListener('resize', () => {
             this.animationManager.initNeuralNetwork();
         });
 
-        // Handle Esc key for closing modals
+        // Pause animations when page is not visible (saves battery on mobile)
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                this.animationManager.pauseAnimations();
+            } else {
+                this.animationManager.resumeAnimations();
+            }
+        });
+
+        // Handle Esc key for closing modals and mobile menu
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Escape') {
+                // Close mobile menu if open
+                closeMobileMenu();
+                
                 // Close demo modal if open
                 const demoModal = document.getElementById('demoModal');
                 if (demoModal && demoModal.style.display === 'block') {

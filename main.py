@@ -106,12 +106,21 @@ header = Header(
                     href='/',
                     cls='logo'
                 ),
+                Button(
+                    Div(cls='hamburger-line'),
+                    Div(cls='hamburger-line'),
+                    Div(cls='hamburger-line'),
+                    cls='hamburger-menu',
+                    onclick='toggleMobileMenu()'
+                ),
                 Nav(
                     A('How it Works', href='#workflows'),
                     A('Benefits', href='#benefits'),
                     A('See Demo', href='#product-demo'),
                     A('Pricing', href='#pricing'),
-                    A(Button('Start Free Trial', cls='btn btn-primary'), href='https://dashboard.app.divergenceai.xyz')
+                    A(Button('Start Free Trial', cls='btn btn-primary'), href='https://dashboard.app.divergenceai.xyz'),
+                    cls='nav-menu',
+                    id='navMenu'
                 ),
                 cls='container'
             )
