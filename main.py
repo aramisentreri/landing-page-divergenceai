@@ -398,7 +398,7 @@ def home(session):
                     Div(
                         Div(
                             H3('Professional', cls='tier-title'),
-                            Div('$99', cls='tier-price'),
+                            Div('$399', cls='tier-price'),
                             P('per month', cls='tier-period'),
                             Ul(
                                 Li('Access to HFSS Copilot core features'),
